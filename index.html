@@ -1,0 +1,2464 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAXA | Engineered for Deeper Digital Defense | Raxa.ca</title>
+  
+  <!-- Google Fonts: Ubuntu & JetBrains Mono for Cyber Telemetry -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Three.js CDN for 3D Cyber Topologies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       1. GLOBAL UBUNTU TYPOGRAPHY & DESIGN TOKENS
+       ========================================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+
+    .font-mono-cyber {
+      font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    :root, html[data-theme="dark"] {
+      --bg-base: #050811;
+      --bg-surface: rgba(9, 14, 28, 0.88);
+      --bg-card: rgba(13, 20, 38, 0.85);
+      --bg-card-hover: rgba(18, 29, 56, 0.95);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-navy: rgba(59, 130, 246, 0.35);
+      --navy-glow: rgba(37, 99, 235, 0.3);
+      --cyan-glow: rgba(56, 189, 248, 0.22);
+      --navy-primary: #2563eb;
+      --navy-bright: #60a5fa;
+      --cyan-accent: #38bdf8;
+      --navy-deep: #1d4ed8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --badge-bg: rgba(37, 99, 235, 0.12);
+      --badge-border: rgba(59, 130, 246, 0.3);
+      --badge-text: #93c5fd;
+      --grid-line: rgba(59, 130, 246, 0.045);
+      --hud-shadow: rgba(0, 0, 0, 0.65);
+      --ambient-particle: #38bdf8;
+      --mesh-line: #1e3a8a;
+      --terminal-bg: #03060d;
+    }
+
+    html[data-theme="light"] {
+      --bg-base: #f4f7fb;
+      --bg-surface: rgba(255, 255, 255, 0.92);
+      --bg-card: #ffffff;
+      --bg-card-hover: #f8fafc;
+      --border-subtle: rgba(15, 23, 42, 0.08);
+      --border-navy: rgba(30, 64, 175, 0.22);
+      --navy-glow: rgba(30, 64, 175, 0.12);
+      --cyan-glow: rgba(2, 132, 199, 0.1);
+      --navy-primary: #1d4ed8;
+      --navy-bright: #2563eb;
+      --cyan-accent: #0284c7;
+      --navy-deep: #1e40af;
+      --text-main: #091224;
+      --text-muted: #475569;
+      --badge-bg: rgba(30, 64, 175, 0.06);
+      --badge-border: rgba(30, 64, 175, 0.2);
+      --badge-text: #1e40af;
+      --grid-line: rgba(15, 23, 42, 0.035);
+      --hud-shadow: rgba(15, 23, 42, 0.08);
+      --ambient-particle: #0284c7;
+      --mesh-line: #93c5fd;
+      --terminal-bg: #f1f5f9;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #global-mesh-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.75;
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .ambient-glow-top {
+      position: fixed;
+      top: -15%;
+      right: 5%;
+      width: 70vw;
+      height: 600px;
+      background: radial-gradient(circle, var(--navy-glow) 0%, var(--cyan-glow) 35%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+      filter: blur(70px);
+    }
+
+    .ambient-glow-bottom {
+      position: fixed;
+      bottom: -15%;
+      left: -5%;
+      width: 60vw;
+      height: 550px;
+      background: radial-gradient(circle, var(--navy-glow) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 1;
+      filter: blur(70px);
+    }
+
+    .custom-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 3;
+    }
+
+    .cyber-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cyber-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan-accent), var(--navy-primary), transparent);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .cyber-card:hover {
+      border-color: var(--border-navy);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 36px var(--navy-glow);
+    }
+
+    .cyber-card:hover::before {
+      opacity: 1;
+    }
+
+    .icon-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan-accent);
+      flex-shrink: 0;
+      box-shadow: inset 0 0 12px rgba(56, 189, 248, 0.1);
+    }
+
+    .tab-btn {
+      padding: 0.65rem 1.4rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--navy-primary);
+      border-color: var(--cyan-accent);
+      color: #ffffff;
+      box-shadow: 0 4px 16px var(--navy-glow);
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--badge-text);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 8, 16, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1.5rem;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--cyan-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-heading {
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.9rem;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    .pulse-dot {
+      animation: pulseAnimation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulseAnimation {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .4; transform: scale(0.85); }
+    }
+
+    /* Custom Scrollbar for Cyber Terminals */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-navy);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient 3D Cyber Undulation Canvas & Grid -->
+  <canvas id="global-mesh-canvas"></canvas>
+  <div class="bg-grid"></div>
+  <div class="ambient-glow-top"></div>
+  <div class="ambient-glow-bottom"></div>
+
+  <!-- ==========================================================================
+       NAVIGATION BAR (FULL HARDENED & VERIFIED ROUTING)
+       ========================================================================== -->
+  <nav class="fixed top-0 left-0 right-0 h-20 bg-[var(--bg-surface)] backdrop-blur-xl border-b border-[var(--border-subtle)] z-50">
+    <div class="custom-container h-full flex items-center justify-between">
+      
+      <!-- Typographic Brand Wordmark in Ubuntu -->
+      <a href="https://raxa.ca" class="flex flex-col text-decoration-none group">
+        <span class="text-2xl font-bold tracking-widest text-[var(--text-main)] group-hover:text-[var(--cyan-accent)] transition-colors leading-none">RAXA</span>
+        <span class="text-[0.62rem] font-bold tracking-[0.2em] text-[var(--navy-bright)] mt-1">DEFENSE IN DNA</span>
+      </a>
+
+      <!-- Verified Navigation Links -->
+      <ul class="hidden lg:flex items-center gap-7 text-[0.875rem] font-medium text-[var(--text-muted)]">
+        <li><a href="#services" onclick="switchServiceTab('sec')" class="hover:text-[var(--cyan-accent)] transition-colors">Solutions</a></li>
+        <li><a href="#assurance" onclick="navigateToAssurance(event)" class="hover:text-[var(--cyan-accent)] transition-colors">Assurance</a></li>
+        <li><a href="#ai-intel-engine" class="hover:text-[var(--cyan-accent)] transition-colors flex items-center gap-1.5 text-[var(--cyan-accent)] font-semibold">
+          <span class="w-2 h-2 rounded-full bg-[var(--cyan-accent)] pulse-dot"></span> AI Threat Radar
+        </a></li>
+        <li><a href="#vciso-advisor" class="hover:text-[var(--cyan-accent)] transition-colors">AI vCISO</a></li>
+        <li><a href="#industries" class="hover:text-[var(--cyan-accent)] transition-colors">Sectors</a></li>
+        <li><a href="#about" class="hover:text-[var(--cyan-accent)] transition-colors">Company</a></li>
+      </ul>
+
+      <!-- Action Items -->
+      <div class="flex items-center gap-3">
+        <!-- API Key Configuration Trigger -->
+        <button onclick="openApiKeyModal()" id="nav-apikey-btn" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--cyan-accent)] hover:border-[var(--border-navy)] transition-all cursor-pointer">
+          <span class="w-2 h-2 rounded-full bg-amber-400" id="apikey-indicator-dot"></span>
+          <span id="apikey-indicator-text">API Key: Offline Mode</span>
+        </button>
+
+        <!-- AI Posture Audit Quick Button -->
+        <a href="#vciso-advisor" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold border border-[var(--border-navy)] bg-[var(--bg-card)] text-[var(--cyan-accent)] hover:border-[var(--cyan-accent)] hover:shadow-[0_0_14px_var(--navy-glow)] transition-all text-decoration-none">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Audit Posture AI
+        </a>
+
+        <!-- Dark/Light Theme Toggle -->
+        <button onclick="toggleTheme()" class="px-3 py-1.5 rounded-full text-xs font-bold border border-[var(--border-navy)] bg-[var(--bg-card)] text-[var(--text-main)] hover:shadow-[0_0_14px_var(--navy-glow)] flex items-center gap-1.5 cursor-pointer">
+          <span id="theme-icon">☀️</span> <span id="theme-label" class="hidden md:inline">Light</span>
+        </button>
+
+        <!-- Briefing Modal Trigger -->
+        <button onclick="openModal('General Architecture Briefing')" class="px-4 py-2 rounded-lg text-xs font-bold text-white bg-[var(--navy-primary)] hover:bg-[var(--navy-deep)] shadow-[0_4px_16px_var(--navy-glow)] hover:-translate-y-0.5 transition-all cursor-pointer">
+          Schedule Briefing
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==========================================================================
+       HERO SECTION
+       ========================================================================== -->
+  <section class="min-h-screen pt-36 pb-20 flex items-center relative">
+    <div class="custom-container w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Hero Narrative -->
+        <div class="lg:col-span-7">
+          <div class="tagline-pill tag-pill mb-6">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            RAXA // SOVEREIGN CYBER ARCHITECTURE
+          </div>
+          
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.12] mb-6">
+            Engineered for <span class="text-transparent bg-clip-text bg-gradient-to-r from-[var(--cyan-accent)] via-[var(--navy-bright)] to-[var(--navy-primary)]">Deeper Digital Defense</span>.
+          </h1>
+          
+          <p class="text-lg text-[var(--text-muted)] leading-relaxed mb-8 max-w-2xl">
+            We replace fragile surface patches with foundational resilience. Unifying 24/7 Autonomous SOC operations, proactive threat hunting, full-lifecycle IT engineering, and rigorous compliance governance directly into your infrastructure bedrock.
+          </p>
+
+          <div class="flex flex-wrap gap-4 mb-12">
+            <a href="#ai-intel-engine" class="px-7 py-3.5 rounded-lg text-sm font-bold text-white bg-[var(--navy-primary)] hover:bg-[var(--navy-deep)] shadow-[0_6px_24px_var(--navy-glow)] hover:-translate-y-0.5 transition-all text-decoration-none inline-flex items-center gap-2">
+              <span>Launch AI Threat Radar</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+            <a href="#vciso-advisor" class="px-7 py-3.5 rounded-lg text-sm font-bold text-[var(--text-main)] bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--border-navy)] hover:bg-[var(--bg-card-hover)] transition-all text-decoration-none inline-flex items-center gap-2">
+              <svg class="w-4 h-4 text-[var(--cyan-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Generate AI vCISO Audit</span>
+            </a>
+          </div>
+
+          <!-- Live Metrics Strip -->
+          <div class="grid grid-cols-3 gap-6 pt-6 border-t border-[var(--border-subtle)]">
+            <div>
+              <div class="text-2xl lg:text-3xl font-bold text-[var(--text-main)]">42s</div>
+              <div class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mt-1">SOAR Containment SLA</div>
+            </div>
+            <div>
+              <div class="text-2xl lg:text-3xl font-bold text-[var(--text-main)]">100%</div>
+              <div class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mt-1">Sovereign Data Isolation</div>
+            </div>
+            <div>
+              <div class="text-2xl lg:text-3xl font-bold text-[var(--cyan-accent)]">24/7/365</div>
+              <div class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mt-1">Autonomous + Human SOC</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 3D Defense Gyroscope Core Visualizer -->
+        <div class="lg:col-span-5 h-[480px] relative flex items-center justify-center">
+          <canvas id="webgl-canvas" class="w-full h-full rounded-2xl"></canvas>
+
+          <!-- Floating Glass HUD Badges -->
+          <div class="absolute top-6 -left-4 bg-[var(--bg-surface)] border border-[var(--border-navy)] backdrop-blur-xl rounded-xl p-4 shadow-2xl z-10 w-56">
+            <div class="text-[0.65rem] uppercase font-bold tracking-wider text-[var(--text-muted)]">Autonomous Triage</div>
+            <div class="text-lg font-bold text-[var(--text-main)] mt-0.5">Sub-Minute Eviction</div>
+            <div class="text-xs font-medium text-[var(--cyan-accent)] mt-1 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--cyan-accent)]"></span> Zero-Trust Containment
+            </div>
+          </div>
+
+          <div class="absolute bottom-6 -right-4 bg-[var(--bg-surface)] border border-[var(--border-navy)] backdrop-blur-xl rounded-xl p-4 shadow-2xl z-10 w-60">
+            <div class="text-[0.65rem] uppercase font-bold tracking-wider text-[var(--text-muted)]">Threats Neutralized Today</div>
+            <div class="text-2xl font-bold text-[var(--text-main)] mt-0.5" id="hero-threat-counter">1,842</div>
+            <div class="text-xs font-medium text-[var(--navy-bright)] mt-1 flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              Native Raksha Attestation
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FEATURE 1: AUTONOMOUS AI THREAT INTEL RADAR (SEARCH GROUNDED)
+       ========================================================================== -->
+  <section id="ai-intel-engine" class="py-24 bg-[var(--bg-surface)] border-y border-[var(--border-subtle)] relative">
+    <div class="custom-container">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+        <div>
+          <div class="section-eyebrow flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-[var(--cyan-accent)] pulse-dot"></span>
+            GEMINI-POWERED SOVEREIGN INTEL // REAL-TIME SEARCH GROUNDING
+          </div>
+          <h2 class="text-3xl lg:text-4xl font-bold">Autonomous Threat Radar & CVE Triage</h2>
+          <p class="text-sm text-[var(--text-muted)] mt-2 max-w-2xl">
+            Live real-world vulnerability triage powered by Gemini with Google Search grounding. Queries up-to-date threat feeds, MITRE techniques, affected systems, and generates instant zero-trust containment playbooks.
+          </p>
+        </div>
+        <div class="mt-4 md:mt-0 flex items-center gap-2">
+          <button onclick="openApiKeyModal()" class="tag-pill text-[0.68rem] hover:border-[var(--cyan-accent)] cursor-pointer">
+            <span class="text-[var(--cyan-accent)]" id="intel-model-badge">● Engine: gemini-2.5-flash</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Threat Search Console -->
+      <div class="cyber-card p-6 lg:p-8 mb-8">
+        <form onsubmit="runThreatIntelQuery(event)" class="flex flex-col md:flex-row gap-3">
+          <div class="relative flex-1">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[var(--text-muted)]">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <input 
+              type="text" 
+              id="threat-query-input" 
+              placeholder="Enter CVE ID, threat actor, or malware family (e.g., CVE-2024-3094, Salt Typhoon, LockBit 3.0)..." 
+              class="w-full pl-11 pr-4 py-3 rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--cyan-accent)] text-[var(--text-main)] text-sm font-mono-cyber outline-none" 
+              value="CVE-2024-3094 XZ Utils Backdoor" 
+            />
+          </div>
+          <button type="submit" id="threat-submit-btn" class="px-6 py-3 rounded-xl text-xs font-bold text-white bg-[var(--navy-primary)] hover:bg-[var(--navy-deep)] shadow-[0_4px_16px_var(--navy-glow)] transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Execute Grounded Triage</span>
+          </button>
+        </form>
+
+        <!-- Quick Query Preset Chips -->
+        <div class="flex flex-wrap items-center gap-2 mt-4 text-xs">
+          <span class="text-[var(--text-muted)] font-bold">Preset Vectors:</span>
+          <button onclick="setThreatChip('CVE-2024-3094 XZ Utils Backdoor')" class="px-2.5 py-1 rounded-md bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--cyan-accent)] text-[var(--cyan-accent)] cursor-pointer">XZ Backdoor (CVE-2024-3094)</button>
+          <button onclick="setThreatChip('Salt Typhoon nation-state telecommunication infrastructure')" class="px-2.5 py-1 rounded-md bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--cyan-accent)] text-[var(--cyan-accent)] cursor-pointer">Salt Typhoon Espionage</button>
+          <button onclick="setThreatChip('LockBit 3.0 Ransomware cloud exfiltration TTPs')" class="px-2.5 py-1 rounded-md bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--cyan-accent)] text-[var(--cyan-accent)] cursor-pointer">LockBit 3.0 Ransomware</button>
+          <button onclick="setThreatChip('Ivanti Connect Secure Zero-Day CVE-2024-21887')" class="px-2.5 py-1 rounded-md bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--cyan-accent)] text-[var(--cyan-accent)] cursor-pointer">Ivanti VPN Zero-Day</button>
+        </div>
+      </div>
+
+      <!-- Triage Output Display Panel -->
+      <div class="cyber-card p-6 lg:p-8" id="intel-output-card">
+        <div class="flex flex-wrap items-center justify-between pb-4 mb-6 border-b border-[var(--border-subtle)] gap-4">
+          <div class="flex items-center gap-3">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+            <span class="text-xs font-bold font-mono-cyber uppercase text-emerald-400" id="intel-status-header">TRIAGE READY // ENTER THREAT VECTOR ABOVE</span>
+          </div>
+          <div class="flex items-center gap-3 text-xs font-mono-cyber text-[var(--text-muted)]">
+            <span id="intel-timestamp">Live Telemetry</span>
+            <button onclick="copyThreatReport()" class="px-3 py-1 rounded bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--cyan-accent)] text-[var(--text-main)] cursor-pointer">Copy Report</button>
+          </div>
+        </div>
+
+        <div id="intel-output-body" class="space-y-4">
+          <div class="p-6 rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-subtle)] font-mono-cyber text-xs text-[var(--text-muted)] leading-relaxed">
+            Click <strong>"Execute Grounded Triage"</strong> to synthesize active MITRE ATT&CK mappings, CVSS blast radiuses, and zero-trust containment playbooks.
+          </div>
+        </div>
+
+        <div id="intel-citations-container" class="mt-6 pt-4 border-t border-[var(--border-subtle)] hidden">
+          <div class="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-2">Grounded Search Sources:</div>
+          <div id="intel-citations-list" class="flex flex-wrap gap-2 text-xs"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FEATURE 2: AI vCISO POSTURE & COMPLIANCE GAP ADVISOR
+       ========================================================================== -->
+  <section id="vciso-advisor" class="py-24 relative">
+    <div class="custom-container">
+      
+      <div class="text-center mb-14">
+        <div class="section-eyebrow">Autonomous Governance Engine</div>
+        <h2 class="section-heading">AI vCISO Posture & Gap Advisor</h2>
+        <p class="section-desc">Generate an instant, structured compliance gap matrix and a 30-60-90 day sovereign engineering roadmap tailored to your cloud topology and regulatory mandates.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left: Intake Configuration Parameters -->
+        <div class="lg:col-span-5">
+          <div class="cyber-card p-6 lg:p-8 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-[var(--border-subtle)]">
+              <h3 class="text-base font-bold text-[var(--text-main)]">Infrastructure Profile</h3>
+              <span class="tag-pill text-[0.65rem]">AI GAP MODEL</span>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-[var(--text-muted)] mb-1.5">Sector / Vertical</label>
+              <select id="vciso-industry" class="w-full px-3.5 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xs font-medium outline-none focus:border-[var(--cyan-accent)]">
+                <option value="Fintech & Digital Banking">Fintech & Digital Banking (PCI-DSS 4.0 / SOC 2)</option>
+                <option value="Healthtech & Medical Systems">Healthtech & Medical Systems (HIPAA / HITECH)</option>
+                <option value="Defense, Space & CMMC Enclaves">Defense & Aerospace (CMMC Level 2 / NIST 800-171)</option>
+                <option value="High-Growth B2B SaaS Platform">High-Growth B2B SaaS (SOC 2 Type II / ISO 27001)</option>
+                <option value="Critical Infrastructure & Energy">Critical Infrastructure & Energy (NERC CIP / NIST CSF)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-[var(--text-muted)] mb-1.5">Target Compliance Framework</label>
+              <select id="vciso-framework" class="w-full px-3.5 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xs font-medium outline-none focus:border-[var(--cyan-accent)]">
+                <option value="SOC 2 Type II (Trust Services Criteria)">SOC 2 Type II (Security, Availability, Confidentiality)</option>
+                <option value="ISO/IEC 27001:2022 ISMS">ISO/IEC 27001:2022 ISMS</option>
+                <option value="CMMC 2.0 Level 2 (NIST SP 800-171)">CMMC 2.0 Level 2 (NIST SP 800-171)</option>
+                <option value="HIPAA Security & Privacy Rule">HIPAA Security & Privacy Rule</option>
+                <option value="NIST Cybersecurity Framework (CSF 2.0)">NIST Cybersecurity Framework (CSF 2.0)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-[var(--text-muted)] mb-1.5">Cloud Topology</label>
+              <select id="vciso-cloud" class="w-full px-3.5 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xs font-medium outline-none focus:border-[var(--cyan-accent)]">
+                <option value="AWS Multi-Account (EKS, RDS, IAM Identity Center)">AWS Multi-Account (EKS, RDS, IAM Identity Center)</option>
+                <option value="Microsoft Azure Hybrid (Entra ID, AKS, Blob Storage)">Microsoft Azure Hybrid (Entra ID, AKS, Blob Storage)</option>
+                <option value="Google Cloud Platform (GKE, Cloud SQL, Workload Identity)">Google Cloud Platform (GKE, Cloud SQL, Workload Identity)</option>
+                <option value="Hybrid Multi-Cloud + On-Premises Active Directory">Hybrid Multi-Cloud + On-Premises Active Directory</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-[var(--text-muted)] mb-1.5">Primary Pain Point or Architecture Goal</label>
+              <input 
+                type="text" 
+                id="vciso-painpoint" 
+                placeholder="e.g. Zero local admins, automated audit evidence, least-privilege IAM..." 
+                class="w-full px-3.5 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xs outline-none focus:border-[var(--cyan-accent)]"
+                value="Zero-Trust IAM boundaries and automated SOC 2 continuous evidence logging" 
+              />
+            </div>
+
+            <button onclick="generateVCISOAudit()" id="vciso-generate-btn" class="w-full py-3 rounded-lg text-xs font-bold text-white bg-[var(--navy-primary)] hover:bg-[var(--navy-deep)] shadow-[0_4px_16px_var(--navy-glow)] transition-all flex items-center justify-center gap-2 cursor-pointer mt-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <span>Generate Sovereign Audit Plan</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Generated Audit Matrix & Roadmap -->
+        <div class="lg:col-span-7">
+          <div class="cyber-card p-6 lg:p-8 h-full flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-4 mb-4 border-b border-[var(--border-subtle)]">
+                <span class="text-xs font-bold font-mono-cyber uppercase text-[var(--cyan-accent)]">vCISO Architectural Analysis</span>
+                <span id="vciso-status-pill" class="text-[0.65rem] font-mono-cyber text-[var(--text-muted)]">AWAITING PARAMETERS</span>
+              </div>
+
+              <div id="vciso-results-view" class="space-y-4 max-h-[480px] overflow-y-auto pr-2">
+                <div class="p-6 rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-xs font-mono-cyber text-[var(--text-muted)] leading-relaxed">
+                  Configure your industry and compliance target on the left, then click <strong>"Generate Sovereign Audit Plan"</strong> to formulate a 30/60/90-day execution blueprint.
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 mt-6 border-t border-[var(--border-subtle)] flex items-center justify-between">
+              <span class="text-[0.7rem] text-[var(--text-muted)]">Includes NIST SP 800-53 & CIS Control mapping</span>
+              <button onclick="openModal('Full vCISO Governance Retainer')" class="text-xs font-bold text-[var(--navy-bright)] hover:underline">
+                Request Dedicated vCISO Briefing →
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FEATURE 3: CRISIS TABLE TOP EXERCISE (TTX) SIMULATOR
+       ========================================================================== -->
+  <section id="ttx-simulator" class="py-24 bg-[var(--bg-surface)] border-y border-[var(--border-subtle)] relative">
+    <div class="custom-container">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+        <div>
+          <div class="section-eyebrow flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500 pulse-dot"></span>
+            INTERACTIVE INCIDENT WAR-GAME // COMMAND EXERCISE
+          </div>
+          <h2 class="text-3xl lg:text-4xl font-bold">Cyber Crisis Table Top Simulator</h2>
+          <p class="text-sm text-[var(--text-muted)] mt-2 max-w-2xl">
+            Test your executive response capabilities against active ransomware extortion, cloud tenant takeovers, and lateral privilege escalation.
+          </p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <button onclick="startNewTTXScenario()" class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-700 shadow-lg transition-all cursor-pointer flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Launch New Incident War-Game</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="cyber-card p-7 lg:p-9" id="ttx-card">
+        <div class="flex items-center justify-between pb-4 mb-6 border-b border-[var(--border-subtle)]">
+          <div class="flex items-center gap-3">
+            <span class="w-3 h-3 rounded-full bg-red-500 pulse-dot"></span>
+            <span class="text-xs font-bold font-mono-cyber uppercase text-[var(--text-main)]" id="ttx-scenario-title">INCIDENT WAR-GAME // SIMULATOR READY</span>
+          </div>
+          <span class="text-xs font-mono-cyber text-[var(--cyan-accent)]" id="ttx-score-display">SECURITY SCORE: 100/100</span>
+        </div>
+
+        <div id="ttx-scenario-body" class="space-y-6">
+          <div class="p-5 rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-sm text-[var(--text-muted)] leading-relaxed">
+            Click <strong>"Launch New Incident War-Game"</strong> above to generate a realistic extortion scenario. You will be prompted with branching tactical decisions involving ransomware containment, executive comms, and law enforcement escalation.
+          </div>
+        </div>
+
+        <div id="ttx-actions-container" class="mt-6 pt-4 border-t border-[var(--border-subtle)] hidden">
+          <div class="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-3">Select Your Command Action:</div>
+          <div id="ttx-choices-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ABOUT US (WHO WE ARE, WHO WE ARE NOT, VALUES & MISSION, TEAM)
+       ========================================================================== -->
+  <section id="about" class="py-28 bg-[var(--bg-surface)] border-t border-[var(--border-subtle)] relative">
+    <div class="custom-container">
+      
+      <div class="text-center mb-16">
+        <div class="section-eyebrow">Enterprise Heritage & Creed</div>
+        <h2 class="section-heading">Security Forged From First Principles</h2>
+        <p class="section-desc">Traditional security reacts to breaches after the perimeter cracks. We engineer resilience into the biological bedrock of your enterprise.</p>
+      </div>
+
+      <!-- 4-Quadrant Matrix: Origin, Belief, Impact, and "Who We Are NOT" -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        
+        <!-- Origin -->
+        <div class="cyber-card p-7">
+          <div class="icon-badge mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">Our Origin</div>
+          <h3 class="text-xl font-bold mb-3">The Ancient Duty of Raksha</h3>
+          <p class="text-sm text-[var(--text-muted)] leading-relaxed">
+            Derived from the timeless concept of <em>Raksha</em>—the sacred, unbreakable duty to protect. We replace superficial tools with foundational, uncompromising protection architectures.
+          </p>
+        </div>
+
+        <!-- Belief -->
+        <div class="cyber-card p-7">
+          <div class="icon-badge mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+          </div>
+          <div class="text-xs font-bold text-[var(--navy-bright)] uppercase tracking-wider mb-2">Our Core Belief</div>
+          <h3 class="text-xl font-bold mb-3">Defense in DNA</h3>
+          <p class="text-sm text-[var(--text-muted)] leading-relaxed">
+            True digital security cannot be bolted on as an afterthought. It must be written into the topology, identity fabrics, and operational DNA of every workstation and cloud cluster.
+          </p>
+        </div>
+
+        <!-- Impact -->
+        <div class="cyber-card p-7">
+          <div class="icon-badge mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">Our Impact</div>
+          <h3 class="text-xl font-bold mb-3">Deeper Digital Defense</h3>
+          <p class="text-sm text-[var(--text-muted)] leading-relaxed">
+            From the edge to the hypervisor, we provide continuous, self-healing telemetry and sub-minute threat eviction that gives executive boards the certainty to innovate fearlessly.
+          </p>
+        </div>
+
+        <!-- Who We Are NOT (Crucial Differentiator) -->
+        <div class="cyber-card p-7 border-red-500/30 bg-red-950/10">
+          <div class="icon-badge mb-5 text-red-400 bg-red-500/10 border-red-500/30">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+          </div>
+          <div class="text-xs font-bold text-red-400 uppercase tracking-wider mb-2">The Difference</div>
+          <h3 class="text-xl font-bold mb-3">Who We Are NOT</h3>
+          <p class="text-sm text-[var(--text-muted)] leading-relaxed">
+            We are <strong>NOT</strong> checkbox auditors who pass you off to a ticketing queue. We are <strong>NOT</strong> software resellers pushing shelfware. We are active, hands-on sovereign defenders and architects.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Mission Statement Callout Banner -->
+      <div class="cyber-card p-8 lg:p-12 mb-16 bg-gradient-to-r from-[var(--bg-card)] via-[var(--bg-card-hover)] to-[var(--bg-card)] border-[var(--border-navy)]">
+        <div class="max-w-4xl mx-auto text-center">
+          <span class="tag-pill mb-4">OUR SOVEREIGN MISSION</span>
+          <h3 class="text-2xl sm:text-3xl font-bold tracking-tight leading-snug mb-4">
+            "To engineer unbreachable digital environments for mid-market and high-growth organizations by converging autonomous machine-speed response with veteran tactical human intelligence."
+          </h3>
+          <div class="flex items-center justify-center gap-3 text-sm font-medium text-[var(--cyan-accent)]">
+            <span>Sovereign Regional Centers</span> • <span>Zero-Trust Assurance</span> • <span>Tier-3 Principal Operations</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foundational Values (5 Pillars) -->
+      <div class="mb-20">
+        <div class="text-center mb-10">
+          <h3 class="text-2xl font-bold">Our 5 Foundational Values</h3>
+          <p class="text-sm text-[var(--text-muted)] mt-1">The architectural principles governing every incident triage, line of code, and advisory audit.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
+          <div class="cyber-card p-6 text-center">
+            <div class="text-2xl font-bold text-[var(--cyan-accent)] mb-2">01</div>
+            <h4 class="font-bold text-base mb-2">Sovereign Integrity</h4>
+            <p class="text-xs text-[var(--text-muted)]">Uncompromising data isolation, regional sovereignty, and strict non-custodial telemetry governance.</p>
+          </div>
+          <div class="cyber-card p-6 text-center">
+            <div class="text-2xl font-bold text-[var(--navy-bright)] mb-2">02</div>
+            <h4 class="font-bold text-base mb-2">First-Principles Eng</h4>
+            <p class="text-xs text-[var(--text-muted)]">No temporary band-aids. We analyze attack surfaces at the kernel, identity, and API topology layers.</p>
+          </div>
+          <div class="cyber-card p-6 text-center">
+            <div class="text-2xl font-bold text-[var(--cyan-accent)] mb-2">03</div>
+            <h4 class="font-bold text-base mb-2">Radical Transparency</h4>
+            <p class="text-xs text-[var(--text-muted)]">Direct access to raw SIEM logs, transparent SLA metrics, and executive post-mortem accountability.</p>
+          </div>
+          <div class="cyber-card p-6 text-center">
+            <div class="text-2xl font-bold text-[var(--navy-bright)] mb-2">04</div>
+            <h4 class="font-bold text-base mb-2">Relentless Hunting</h4>
+            <p class="text-xs text-[var(--text-muted)]">We assume breach 24/7/365, actively stress-testing defenses before adversaries find gaps.</p>
+          </div>
+          <div class="cyber-card p-6 text-center">
+            <div class="text-2xl font-bold text-[var(--cyan-accent)] mb-2">05</div>
+            <h4 class="font-bold text-base mb-2">Human-AI Synthesis</h4>
+            <p class="text-xs text-[var(--text-muted)]">Combining sub-second SOAR playbooks with Tier-3 seasoned principal security architects.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leadership Team -->
+      <div>
+        <div class="text-center mb-12">
+          <div class="section-eyebrow">Command & Governance</div>
+          <h3 class="text-3xl font-bold">Executive Leadership Team</h3>
+          <p class="text-sm text-[var(--text-muted)] mt-1">Seasoned cyber defense veterans with backgrounds across defense intelligence, critical infrastructure, and hyperscale enterprise security.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+          
+          <!-- Leader 1 -->
+          <div class="cyber-card p-6 flex flex-col items-center text-center">
+            <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-[var(--navy-deep)] to-[var(--cyan-accent)] p-1 mb-4 shadow-lg">
+              <div class="w-full h-full bg-[var(--bg-card)] rounded-xl flex items-center justify-center text-2xl font-bold text-[var(--cyan-accent)]">
+                AK
+              </div>
+            </div>
+            <h4 class="font-bold text-base text-[var(--text-main)]">Arjun Kapoor</h4>
+            <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">Chief Executive Officer</div>
+            <p class="text-xs text-[var(--text-muted)]">20+ yrs building sovereign defense architectures and enterprise cyber resiliency programs.</p>
+            <div class="mt-3 tag-pill text-[0.65rem]">CISSP • CISM</div>
+          </div>
+
+          <!-- Leader 2 -->
+          <div class="cyber-card p-6 flex flex-col items-center text-center">
+            <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-[var(--navy-primary)] to-[var(--navy-bright)] p-1 mb-4 shadow-lg">
+              <div class="w-full h-full bg-[var(--bg-card)] rounded-xl flex items-center justify-center text-2xl font-bold text-[var(--navy-bright)]">
+                EL
+              </div>
+            </div>
+            <h4 class="font-bold text-base text-[var(--text-main)]">Elena Rostova</h4>
+            <div class="text-xs font-bold text-[var(--navy-bright)] uppercase tracking-wider mb-2">Chief Info Security Officer (vCISO)</div>
+            <p class="text-xs text-[var(--text-muted)]">Former Fortune 500 CISO specializing in SOC 2 Type II, FedRAMP, and banking frameworks.</p>
+            <div class="mt-3 tag-pill text-[0.65rem]">CISA • CRISC</div>
+          </div>
+
+          <!-- Leader 3 -->
+          <div class="cyber-card p-6 flex flex-col items-center text-center">
+            <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-[var(--cyan-accent)] to-[var(--navy-primary)] p-1 mb-4 shadow-lg">
+              <div class="w-full h-full bg-[var(--bg-card)] rounded-xl flex items-center justify-center text-2xl font-bold text-[var(--cyan-accent)]">
+                MV
+              </div>
+            </div>
+            <h4 class="font-bold text-base text-[var(--text-main)]">Marcus Vance</h4>
+            <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">VP, Threat Intel & SOC Ops</div>
+            <p class="text-xs text-[var(--text-muted)]">Veteran defensive cyber operator with deep expertise in autonomous SOAR playbooks.</p>
+            <div class="mt-3 tag-pill text-[0.65rem]">GIAC GSE • GCFA</div>
+          </div>
+
+          <!-- Leader 4 -->
+          <div class="cyber-card p-6 flex flex-col items-center text-center">
+            <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-[var(--navy-deep)] to-[var(--cyan-accent)] p-1 mb-4 shadow-lg">
+              <div class="w-full h-full bg-[var(--bg-card)] rounded-xl flex items-center justify-center text-2xl font-bold text-[var(--navy-bright)]">
+                ST
+              </div>
+            </div>
+            <h4 class="font-bold text-base text-[var(--text-main)]">Sarah Tremblay</h4>
+            <div class="text-xs font-bold text-[var(--navy-bright)] uppercase tracking-wider mb-2">Principal Cloud Architect</div>
+            <p class="text-xs text-[var(--text-muted)]">Cloud specialist architecting zero-trust Kubernetes clusters and sovereign IAM boundaries.</p>
+            <div class="mt-3 tag-pill text-[0.65rem]">AWS Security • CCSP</div>
+          </div>
+
+          <!-- Leader 5 -->
+          <div class="cyber-card p-6 flex flex-col items-center text-center">
+            <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-[var(--navy-primary)] to-[var(--cyan-accent)] p-1 mb-4 shadow-lg">
+              <div class="w-full h-full bg-[var(--bg-card)] rounded-xl flex items-center justify-center text-2xl font-bold text-[var(--cyan-accent)]">
+                DL
+              </div>
+            </div>
+            <h4 class="font-bold text-base text-[var(--text-main)]">David Lindqvist</h4>
+            <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">Head of Offensive VAPT</div>
+            <p class="text-xs text-[var(--text-muted)]">Former red-team lead conducting high-impact adversary simulations and zero-day research.</p>
+            <div class="mt-3 tag-pill text-[0.65rem]">OSCP • GXPN • CREST</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ENTERPRISE SERVICES MATRIX (3 INTEGRATED TIERS - SOLUTIONS & ASSURANCE)
+       ========================================================================== -->
+  <section id="services" class="py-28 relative">
+    <div id="assurance" class="relative -top-28"></div>
+    
+    <div class="custom-container">
+      
+      <div class="text-center mb-16">
+        <div class="section-eyebrow">Comprehensive Defense Portfolio</div>
+        <h2 class="section-heading">Engineered Managed Services</h2>
+        <p class="section-desc">Unified IT infrastructure engineering, autonomous managed detection & response, and audit-ready governance.</p>
+        
+        <div class="flex flex-wrap justify-center gap-3 mt-8">
+          <button onclick="switchServiceTab('sec')" id="tab-btn-sec" class="tab-btn active">Managed Security Services</button>
+          <button onclick="switchServiceTab('it')" id="tab-btn-it" class="tab-btn">Managed IT Services</button>
+          <button onclick="switchServiceTab('comp')" id="tab-btn-comp" class="tab-btn">Compliance & Auditing (Assurance)</button>
+        </div>
+      </div>
+
+      <!-- TIER 1: MANAGED SECURITY SERVICES (MXDR / SOC) -->
+      <div id="service-group-sec" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">MDR / MXDR / EDR / XDR</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">
+              24/7/365 active telemetry ingestion across endpoints, cloud workloads, SaaS, and identity fabrics with machine-speed auto-isolation.
+            </p>
+          </div>
+          <ul class="text-xs text-[var(--text-muted)] space-y-2.5 pt-4 border-t border-[var(--border-subtle)]">
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Real-time kernel-level behavioral blocking</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Multi-cloud identity threat detection (ITDR)</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Sub-15 minute critical incident response SLA</li>
+          </ul>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Hypothesis Threat Hunting</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">
+              Human-led adversarial simulation and deep forensic exploration to catch living-off-the-land (LotL) attackers that bypass signature filters.
+            </p>
+          </div>
+          <ul class="text-xs text-[var(--text-muted)] space-y-2.5 pt-4 border-t border-[var(--border-subtle)]">
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> MITRE ATT&CK matrix gap verification</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Zero-day exploit telemetry correlation</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Advanced memory & PowerShell analysis</li>
+          </ul>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Unified SIEM & SOAR</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">
+              Cloud-native log lake combined with customized Python and API orchestration playbooks to neutralize malicious connections in seconds.
+            </p>
+          </div>
+          <ul class="text-xs text-[var(--text-muted)] space-y-2.5 pt-4 border-t border-[var(--border-subtle)]">
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Multi-terabyte scalable log retention</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Sub-second automated token revocation</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Custom alert correlation & noise reduction</li>
+          </ul>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Business Continuity & DR</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">
+              Ransomware-proof air-gapped backup engineering, crisis playbooks, and disaster recovery architectures that guarantee business survival.
+            </p>
+          </div>
+          <ul class="text-xs text-[var(--text-muted)] space-y-2.5 pt-4 border-t border-[var(--border-subtle)]">
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Immutable write-once backup storage</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Granular RPO & RTO validation testing</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Executive crisis communication protocols</li>
+          </ul>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">SecOps & Architecture Eng</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">
+              Custom detection rule authoring, firewall and WAF tuning, API gateway security, and zero-trust perimeter configuration.
+            </p>
+          </div>
+          <ul class="text-xs text-[var(--text-muted)] space-y-2.5 pt-4 border-t border-[var(--border-subtle)]">
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> YARA & Sigma rule custom authoring</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Cloud network microsegmentation</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> CASB & SSPM policy orchestration</li>
+          </ul>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">VAPT & Offensive Testing</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">
+              CREST-aligned offensive penetration testing across web applications, APIs, mobile binaries, and internal active directory topologies.
+            </p>
+          </div>
+          <ul class="text-xs text-[var(--text-muted)] space-y-2.5 pt-4 border-t border-[var(--border-subtle)]">
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> OWASP Top 10 Web & GraphQL testing</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Internal Active Directory domain escalation</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Executive remediation roadmap & re-test</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- TIER 2: MANAGED IT SERVICES (BEDROCK) -->
+      <div id="service-group-it" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+        
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">System Engineering</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">High-availability server infrastructure, virtualization (VMware/Hyper-V), storage cluster management, and hybrid cloud networking.</p>
+          </div>
+          <div class="tag-pill text-[0.68rem]">Hybrid Cloud • Tier-4 Uptime</div>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">End User Computing (EUC)</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">Zero-touch workstation provisioning via Microsoft Intune and Apple MDM, patch oversight, identity federation, and seamless hardware lifecycle.</p>
+          </div>
+          <div class="tag-pill text-[0.68rem]">Intune • Jamf • MDM</div>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Customer Experience (CX Desk)</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">24/7 bilingual white-glove technical support desk for end users with guaranteed 5-minute first-response SLAs and 98% first-contact resolution.</p>
+          </div>
+          <div class="tag-pill text-[0.68rem]">24/7 White-Glove Support</div>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">ITIL & ITSM Services</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">Standardized ITIL v4 incident, problem, and change management workflows built directly into ServiceNow or Jira Service Management.</p>
+          </div>
+          <div class="tag-pill text-[0.68rem]">ITIL v4 Certified</div>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Asset Management Solutions</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">Real-time CMDB mapping, shadow IT asset discovery, license optimization, and warranty lifecycle tracking across hybrid infrastructures.</p>
+          </div>
+          <div class="tag-pill text-[0.68rem]">Shadow IT Discovery • CMDB</div>
+        </div>
+
+      </div>
+
+      <!-- TIER 3: COMPLIANCE READINESS & AUDITING (ASSURANCE) -->
+      <div id="service-group-comp" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+        
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Endpoint Hardening</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">CIS Benchmark Level 1 & 2 baseline enforcement, BitLocker/FileVault encryption enforcement, USB device lockdown, and local admin removal.</p>
+          </div>
+          <div class="tag-pill text-[0.68rem]">CIS Benchmarks Level 2</div>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Security Posture Assessment</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">Comprehensive gap audits across cloud topologies (CSPM), identity silos, and Active Directory trust boundaries with executive risk scoring.</p>
+          </div>
+          <div class="tag-pill text-[0.68rem]">CSPM & SSPM Auditing</div>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Multi-Framework Readiness</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">Turnkey audit preparation and continuous evidence collection for SOC 2 (Type I/II), ISO 27001, CMMC Level 2, FedRAMP, NIST CSF 2.0, and HIPAA.</p>
+          </div>
+          <div class="tag-pill text-[0.68rem]">SOC 2 • ISO 27001 • CMMC</div>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Table Top Exercises (TTX)</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">Scenario-based crisis simulations testing executive leadership, legal, PR, and technical response teams against sophisticated ransomware extortion.</p>
+          </div>
+          <div class="tag-pill text-[0.68rem]">Executive War-Games</div>
+        </div>
+
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="icon-badge mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Security Awareness & Phishing</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">Gamified micro-learning, department risk profiling, and continuous spear-phishing attack simulations transforming employees into active human firewalls.</p>
+          </div>
+          <div class="tag-pill text-[0.68rem]">Spear-Phishing Simulations</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PARTNERS & SOLUTIONS WE SUPPORT
+       ========================================== -->
+  <section id="partners" class="py-24 bg-[var(--bg-surface)] border-y border-[var(--border-subtle)]">
+    <div class="custom-container">
+      
+      <div class="text-center mb-12">
+        <div class="section-eyebrow">Ecosystem Integration</div>
+        <h2 class="text-3xl font-bold">Partners & Technologies We Support</h2>
+        <p class="text-sm text-[var(--text-muted)] max-w-xl mx-auto mt-2">Native API-level telemetry ingestion, rule orchestration, and deployment across premier cybersecurity hyperscalers.</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
+        
+        <div class="cyber-card p-5 text-center flex flex-col items-center justify-center">
+          <span class="text-lg font-bold text-[var(--text-main)]">CrowdStrike</span>
+          <span class="text-[0.65rem] text-[var(--cyan-accent)] font-bold mt-1">Falcon Complete</span>
+        </div>
+
+        <div class="cyber-card p-5 text-center flex flex-col items-center justify-center">
+          <span class="text-lg font-bold text-[var(--text-main)]">Microsoft</span>
+          <span class="text-[0.65rem] text-[var(--cyan-accent)] font-bold mt-1">Sentinel & E5</span>
+        </div>
+
+        <div class="cyber-card p-5 text-center flex flex-col items-center justify-center">
+          <span class="text-lg font-bold text-[var(--text-main)]">SentinelOne</span>
+          <span class="text-[0.65rem] text-[var(--cyan-accent)] font-bold mt-1">Singularity XDR</span>
+        </div>
+
+        <div class="cyber-card p-5 text-center flex flex-col items-center justify-center">
+          <span class="text-lg font-bold text-[var(--text-main)]">AWS</span>
+          <span class="text-[0.65rem] text-[var(--cyan-accent)] font-bold mt-1">Sovereign Cloud</span>
+        </div>
+
+        <div class="cyber-card p-5 text-center flex flex-col items-center justify-center">
+          <span class="text-lg font-bold text-[var(--text-main)]">Palo Alto</span>
+          <span class="text-[0.65rem] text-[var(--cyan-accent)] font-bold mt-1">Cortex XSOAR</span>
+        </div>
+
+        <div class="cyber-card p-5 text-center flex flex-col items-center justify-center">
+          <span class="text-lg font-bold text-[var(--text-main)]">Splunk</span>
+          <span class="text-[0.65rem] text-[var(--cyan-accent)] font-bold mt-1">Enterprise SIEM</span>
+        </div>
+
+        <div class="cyber-card p-5 text-center flex flex-col items-center justify-center">
+          <span class="text-lg font-bold text-[var(--text-main)]">Vanta</span>
+          <span class="text-[0.65rem] text-[var(--cyan-accent)] font-bold mt-1">Continuous Audit</span>
+        </div>
+
+        <div class="cyber-card p-5 text-center flex flex-col items-center justify-center">
+          <span class="text-lg font-bold text-[var(--text-main)]">Drata</span>
+          <span class="text-[0.65rem] text-[var(--cyan-accent)] font-bold mt-1">Trust Platform</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       RESOURCES & HYGIENE STANDARD
+       ========================================== -->
+  <section id="resources" class="py-28 relative">
+    <div class="custom-container">
+      
+      <div class="text-center mb-16">
+        <div class="section-eyebrow">Intelligence & Insights</div>
+        <h2 class="section-heading">Security Radar & Knowledge Hub</h2>
+        <p class="section-desc">Actionable research, live vulnerability disclosures, generative AI governance frameworks, and security hygiene playbooks.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- AI Starter Kit -->
+        <div class="cyber-card p-8 bg-gradient-to-br from-[var(--bg-card)] via-[var(--bg-card)] to-[var(--navy-deep)]/20">
+          <div class="flex items-center justify-between mb-4">
+            <span class="tag-pill text-[var(--cyan-accent)]">FEATURED TOOLKIT</span>
+            <span class="text-xs font-bold text-[var(--text-muted)]">Updated Weekly</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-3">Enterprise AI Starter Kit: Generative AI Governance</h3>
+          <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">
+            A comprehensive architecture blueprint for securely deploying Large Language Models (LLMs), containing Shadow AI data leakage, defending against prompt injection, and achieving EU AI Act compliance.
+          </p>
+          <div class="grid grid-cols-2 gap-3 mb-6 text-xs text-[var(--text-muted)]">
+            <div class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> LLM Data Exfiltration Guards</div>
+            <div class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Shadow AI API Scanner</div>
+            <div class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Prompt Injection Threat Models</div>
+            <div class="flex items-center gap-2"><span class="text-[var(--cyan-accent)] font-bold">✓</span> Model Attestation Checklist</div>
+          </div>
+          <button onclick="openModal('Download AI Starter Kit')" class="px-5 py-2.5 rounded-lg text-xs font-bold text-white bg-[var(--navy-primary)] hover:bg-[var(--navy-deep)] transition-all cursor-pointer">
+            Access AI Security Framework →
+          </button>
+        </div>
+
+        <!-- Security Hygiene Blueprint -->
+        <div class="cyber-card p-8 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="tag-pill">PRACTICE GUIDE</span>
+              <span class="text-xs font-bold text-[var(--text-muted)]">Executive Whitepaper</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-3">The Modern Enterprise Security Hygiene Standard</h3>
+            <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-6">
+              18 actionable baseline configurations that mitigate 94% of commodity ransomware attacks before an incident responder is needed. Covers CIS Benchmarks, Active Directory Tiering, and Cloud Workload Isolation.
+            </p>
+          </div>
+          <button onclick="openModal('Security Hygiene Standard Guide')" class="text-xs font-bold text-[var(--cyan-accent)] hover:underline flex items-center gap-1.5 self-start">
+            <span>Read Executive Hygiene Whitepaper</span>
+            <span>→</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       INDUSTRIES WE DEFEND (SECTORS)
+       ========================================== -->
+  <section id="industries" class="py-24 bg-[var(--bg-surface)] border-t border-[var(--border-subtle)]">
+    <div class="custom-container">
+      
+      <div class="text-center mb-16">
+        <div class="section-eyebrow">Tailored Threat Models</div>
+        <h2 class="section-heading">Industries We Safeguard</h2>
+        <p class="section-desc">Sovereign compliance and threat hunting engineered specifically for highly regulated and mission-critical enterprise environments.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="cyber-card p-7">
+          <div class="icon-badge mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Fintech & Banking</h3>
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed mb-4">PCI-DSS 4.0, SOC 2 Type II, GLBA compliance, real-time wire fraud detection, and transactional API hardening.</p>
+          <div class="tag-pill text-[0.65rem]">PCI-DSS 4.0 • SOC 2</div>
+        </div>
+
+        <div class="cyber-card p-7">
+          <div class="icon-badge mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Healthtech & ePHI</h3>
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed mb-4">HIPAA/HITECH safeguards, medical device IoT segmentation, and immutable patient record backup architectures.</p>
+          <div class="tag-pill text-[0.65rem]">HIPAA • HITECH</div>
+        </div>
+
+        <div class="cyber-card p-7">
+          <div class="icon-badge mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Defense & Aerospace</h3>
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed mb-4">CMMC 2.0 Level 2 readiness, NIST SP 800-171 enclave isolation, and sovereign Controlled Unclassified Info (CUI) governance.</p>
+          <div class="tag-pill text-[0.65rem]">CMMC Level 2 • NIST 800-171</div>
+        </div>
+
+        <div class="cyber-card p-7">
+          <div class="icon-badge mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">High-Growth SaaS</h3>
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed mb-4">Continuous CI/CD vulnerability scanning, container security (CSPM), multi-tenant isolation, and zero-trust IAM.</p>
+          <div class="tag-pill text-[0.65rem]">Kubernetes • Zero-Trust</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CAREERS AT RAXA
+       ========================================== -->
+  <section id="careers" class="py-24 relative">
+    <div class="custom-container">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <div class="section-eyebrow">Join the Defenders</div>
+          <h2 class="text-3xl font-bold">Careers in Sovereign Cyber Defense</h2>
+          <p class="text-sm text-[var(--text-muted)] mt-1 max-w-xl">Work alongside veteran threat hunters and principal security architects on high-stakes missions.</p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <span class="tag-pill">REMOTE & CANADIAN HUBS</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <div class="cyber-card p-6 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-1">SOC Operations</div>
+            <h3 class="text-lg font-bold text-[var(--text-main)] mb-2">Senior MXDR Threat Hunter</h3>
+            <p class="text-xs text-[var(--text-muted)] mb-4">Lead proactive threat hunts, reverse-engineer ransomware payloads, and author automated SOAR containment playbooks.</p>
+          </div>
+          <button onclick="openModal('Apply: Senior MXDR Threat Hunter')" class="w-full py-2 rounded-lg text-xs font-bold text-[var(--text-main)] bg-[var(--bg-surface)] border border-[var(--border-navy)] hover:bg-[var(--navy-primary)] hover:text-white transition-all cursor-pointer">
+            View Role & Apply →
+          </button>
+        </div>
+
+        <div class="cyber-card p-6 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-bold text-[var(--navy-bright)] uppercase tracking-wider mb-1">Offensive Security</div>
+            <h3 class="text-lg font-bold text-[var(--text-main)] mb-2">Principal VAPT Penetration Tester</h3>
+            <p class="text-xs text-[var(--text-muted)] mb-4">Execute high-impact web, API, Active Directory, and cloud adversary simulations for mid-market clients.</p>
+          </div>
+          <button onclick="openModal('Apply: Principal VAPT Penetration Tester')" class="w-full py-2 rounded-lg text-xs font-bold text-[var(--text-main)] bg-[var(--bg-surface)] border border-[var(--border-navy)] hover:bg-[var(--navy-primary)] hover:text-white transition-all cursor-pointer">
+            View Role & Apply →
+          </button>
+        </div>
+
+        <div class="cyber-card p-6 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-1">Governance & vCISO</div>
+            <h3 class="text-lg font-bold text-[var(--text-main)] mb-2">Lead Compliance & SOC 2 Architect</h3>
+            <p class="text-xs text-[var(--text-muted)] mb-4">Guide scale-up founders and enterprise executives through SOC 2 Type II, ISO 27001, and CMMC Level 2 readiness roadmaps.</p>
+          </div>
+          <button onclick="openModal('Apply: Lead Compliance Architect')" class="w-full py-2 rounded-lg text-xs font-bold text-[var(--text-main)] bg-[var(--bg-surface)] border border-[var(--border-navy)] hover:bg-[var(--navy-primary)] hover:text-white transition-all cursor-pointer">
+            View Role & Apply →
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CONTACT US & "TELL US ABOUT YOURSELF" INTAKE
+       ========================================== -->
+  <section id="contact" class="py-28 bg-[var(--bg-surface)] border-t border-[var(--border-subtle)] relative">
+    <div class="custom-container">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- Left: Contact Details & Guarantee -->
+        <div class="lg:col-span-5">
+          <div class="section-eyebrow">Sovereign Briefing</div>
+          <h2 class="text-3xl lg:text-4xl font-bold mb-4">Tell Us About Your Infrastructure</h2>
+          <p class="text-sm text-[var(--text-muted)] leading-relaxed mb-8">
+            Speak directly with a Principal Security Architect at Raxa.ca. We deliver customized attack surface scopes, compliance gap roadmaps, and pricing proposals within 24 hours.
+          </p>
+
+          <div class="space-y-4 text-xs text-[var(--text-muted)] mb-8">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-[var(--badge-bg)] border border-[var(--badge-border)] flex items-center justify-center text-[var(--cyan-accent)] font-bold">📍</span>
+              <span><strong>Headquarters:</strong> Calgary, Alberta • Toronto • Operations Across Canada & US</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-[var(--badge-bg)] border border-[var(--badge-border)] flex items-center justify-center text-[var(--cyan-accent)] font-bold">🔒</span>
+              <span><strong>Emergency Hotline:</strong> Priority Incident Response Dispatch</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-[var(--badge-bg)] border border-[var(--badge-border)] flex items-center justify-center text-[var(--cyan-accent)] font-bold">✉️</span>
+              <span><strong>Direct Inquiries:</strong> defense@raxa.ca</span>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-navy)]">
+            <div class="text-xs font-bold text-[var(--text-main)] mb-1">Strict Non-Disclosure Guarantee</div>
+            <p class="text-[0.75rem] text-[var(--text-muted)]">All architecture blueprints and telemetry disclosed during consultations are protected under mutual sovereign NDAs.</p>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Intake Form -->
+        <div class="lg:col-span-7">
+          <div class="cyber-card p-8 lg:p-10">
+            <h3 class="text-xl font-bold mb-6 flex items-center justify-between">
+              <span>Security Intake & RFP Portal</span>
+              <span class="text-xs text-[var(--cyan-accent)] font-bold">Confidential</span>
+            </h3>
+
+            <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Your Full Name</label>
+                  <input type="text" id="intake-name" name="name" placeholder="e.g. Alex Morgan" required class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Work Email</label>
+                  <input type="email" id="intake-email" name="email" placeholder="security@yourcompany.com" required class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Company Size (Seats / Nodes)</label>
+                  <select id="intake-size" name="company_size" required class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none">
+                    <option value="">Select scope</option>
+                    <option value="5-50 Seats">5 - 50 Seats (Small Business / Startup)</option>
+                    <option value="50-250 Seats">50 - 250 Seats (Mid-Market Scale-Up)</option>
+                    <option value="250-1000+ Seats">250 - 1000+ Seats (Enterprise / Hybrid)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Primary Defense Focus</label>
+                  <select id="intake-focus" name="defense_focus" class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none">
+                    <option value="24/7 Autonomous SOC & MXDR">24/7 Autonomous SOC & MXDR</option>
+                    <option value="SOC 2 / ISO 27001 / CMMC Compliance Audit">SOC 2 / ISO 27001 / CMMC Compliance Audit</option>
+                    <option value="Offensive VAPT Penetration Testing">Offensive VAPT Penetration Testing</option>
+                    <option value="Full Managed IT & SecOps Bundle">Full Managed IT & SecOps Bundle</option>
+                    <option value="Emergency Incident Response Retainer">Emergency Incident Response Retainer</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Tell Us About Yourself & Current Infrastructure Needs</label>
+                <textarea id="intake-details" name="infrastructure_details" rows="3" placeholder="Describe your current cloud setup (AWS/Azure/M365), regulatory deadlines, or immediate threat hunting priorities..." class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none"></textarea>
+              </div>
+
+              <div class="flex items-center gap-2 pt-1">
+                <input type="checkbox" id="intake-ai-blueprint" name="ai_preview_requested" class="rounded text-[var(--navy-primary)] focus:ring-0 cursor-pointer" checked />
+                <label for="intake-ai-blueprint" class="text-xs text-[var(--cyan-accent)] font-medium cursor-pointer">
+                  ✨ Also generate an instant AI Architecture Preview for my stack
+                </label>
+              </div>
+
+              <button type="submit" id="intake-submit-btn" class="w-full py-3.5 rounded-lg text-sm font-bold text-white bg-[var(--navy-primary)] hover:bg-[var(--navy-deep)] shadow-[0_6px_20px_var(--navy-glow)] transition-all cursor-pointer flex items-center justify-center gap-2">
+                <span>Submit RFP & Request Principal Architect Call</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       MODAL: PROPOSAL & AUDIT REQUEST
+       ========================================== -->
+  <div class="modal-backdrop" id="contact-modal">
+    <div class="bg-[var(--bg-card)] border border-[var(--border-navy)] rounded-2xl w-full max-w-lg p-8 shadow-2xl relative">
+      <button class="absolute top-4 right-4 text-[var(--text-muted)] hover:text-white text-2xl font-bold cursor-pointer" onclick="closeModal()">×</button>
+      <h3 id="modal-title" class="text-xl font-bold mb-1">Request Raxa Security Proposal</h3>
+      <p class="text-xs text-[var(--text-muted)] mb-6">Receive a tailored scope, proposal, and architecture consultation within 24 hours.</p>
+
+      <form onsubmit="handleFormSubmit(event)" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Selected Focus / Scope</label>
+          <input type="text" id="form-package" name="selected_package" readonly class="w-full px-3.5 py-2 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xs font-semibold outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Work Email</label>
+          <input type="email" name="work_email" placeholder="security@company.com" required class="w-full px-3.5 py-2 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xs outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Company Scope</label>
+          <select name="company_scope" required class="w-full px-3.5 py-2 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xs outline-none">
+            <option value="">Select scope</option>
+            <option value="1 - 50 Seats">1 - 50 Seats</option>
+            <option value="50 - 250 Seats">50 - 250 Seats</option>
+            <option value="250+ Seats">250+ Seats</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-lg text-xs font-bold text-white bg-[var(--navy-primary)] hover:bg-[var(--navy-deep)] transition-all mt-4 cursor-pointer flex items-center justify-center gap-2">
+          <span>Confirm Briefing Schedule</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: GEMINI API KEY CONFIGURATOR
+       ========================================== -->
+  <div class="modal-backdrop" id="apikey-modal">
+    <div class="bg-[var(--bg-card)] border border-[var(--border-navy)] rounded-2xl w-full max-w-md p-7 shadow-2xl relative">
+      <button class="absolute top-4 right-4 text-[var(--text-muted)] hover:text-white text-2xl font-bold cursor-pointer" onclick="closeApiKeyModal()">×</button>
+      
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-[var(--cyan-accent)]"></span>
+        <h3 class="text-lg font-bold text-[var(--text-main)]">Gemini AI Engine Keyring</h3>
+      </div>
+      <p class="text-xs text-[var(--text-muted)] mb-5 leading-relaxed">
+        Connect your Google Gemini API key to activate live Google Search grounding, threat radar telemetry, and Gemini TTS dispatches.
+      </p>
+
+      <form onsubmit="saveApiKey(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Google Gemini API Key</label>
+          <input 
+            type="password" 
+            id="apikey-input" 
+            placeholder="AIzaSy..." 
+            class="w-full px-3.5 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xs font-mono-cyber outline-none focus:border-[var(--cyan-accent)]" 
+          />
+          <div class="text-[0.68rem] text-[var(--text-muted)] mt-1.5 flex items-center justify-between">
+            <span>Stored locally in your browser (LocalStorage).</span>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-[var(--cyan-accent)] hover:underline font-bold">Get free key ↗</a>
+          </div>
+        </div>
+
+        <div class="flex gap-2 pt-2">
+          <button type="submit" class="flex-1 py-2.5 rounded-lg text-xs font-bold text-white bg-[var(--navy-primary)] hover:bg-[var(--navy-deep)] transition-all cursor-pointer">
+            Save & Activate Live AI
+          </button>
+          <button type="button" onclick="clearApiKey()" class="px-4 py-2.5 rounded-lg text-xs font-bold text-[var(--text-muted)] bg-[var(--bg-surface)] border border-[var(--border-subtle)] hover:border-red-500/40 hover:text-red-400 transition-all cursor-pointer">
+            Clear Key
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- In-App Notification Toast Box -->
+  <div id="toast-box" class="fixed bottom-6 right-6 px-5 py-3.5 rounded-xl bg-[var(--bg-card)] border border-[var(--cyan-accent)] text-xs font-bold text-[var(--text-main)] shadow-2xl hidden z-50 flex items-center gap-3">
+    <span class="w-2.5 h-2.5 rounded-full bg-[var(--cyan-accent)]"></span>
+    <span id="toast-msg">Assessment request received.</span>
+  </div>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="py-10 border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] text-xs text-[var(--text-muted)]">
+    <div class="custom-container">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        
+        <!-- Left Brand Wordmark -->
+        <a href="https://raxa.ca" class="flex flex-col text-decoration-none group">
+          <span class="text-xl font-bold tracking-widest text-[var(--text-main)] group-hover:text-[var(--cyan-accent)] transition-colors leading-none">RAXA</span>
+          <span class="text-[0.58rem] font-bold tracking-[0.2em] text-[var(--navy-bright)] mt-1">DEFENSE IN DNA</span>
+        </a>
+
+        <!-- Right Copyright Aligned at Same Baseline Height -->
+        <div class="text-xs text-[var(--text-muted)] font-medium text-center md:text-right">
+          All rights reserved for &copy;RAXA Cyber Defense Systems Inc. (<a href="https://raxa.ca" target="_blank" rel="noopener noreferrer" class="text-[var(--navy-bright)] hover:underline">Raxa.ca</a>)
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       SCRIPT ENGINE: THREE.JS, AI INTEGRATIONS & SANITIZATION
+       ========================================== -->
+  <script>
+    // --- 1. Ambient 3D Global Cyber Wave Topology ---
+    var meshCanvas = document.getElementById('global-mesh-canvas');
+    var meshScene = new THREE.Scene();
+    var meshCamera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 1000);
+    meshCamera.position.set(0, 50, 100);
+    meshCamera.lookAt(0, 0, 0);
+
+    var meshRenderer = new THREE.WebGLRenderer({ canvas: meshCanvas, alpha: true, antialias: true });
+    meshRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    meshRenderer.setSize(window.innerWidth, window.innerHeight);
+
+    var gridWidth = 140;
+    var gridDepth = 140;
+    var gridSegments = 38;
+    var terrainGeo = new THREE.PlaneGeometry(gridWidth, gridDepth, gridSegments, gridSegments);
+    terrainGeo.rotateX(-Math.PI / 2.2);
+
+    var posAttr = terrainGeo.attributes.position;
+    var originalZ = new Float32Array(posAttr.count);
+    for (var i = 0; i < posAttr.count; i++) {
+      originalZ[i] = posAttr.getZ(i);
+    }
+
+    var terrainMat = new THREE.MeshBasicMaterial({
+      color: 0x1e3a8a,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.22
+    });
+    var terrainMesh = new THREE.Mesh(terrainGeo, terrainMat);
+    terrainMesh.position.y = -22;
+    meshScene.add(terrainMesh);
+
+    // Floating Ambient Constellation Particles
+    var constCount = 180;
+    var constGeo = new THREE.BufferGeometry();
+    var constPos = new Float32Array(constCount * 3);
+
+    for (var i = 0; i < constCount * 3; i += 3) {
+      constPos[i] = (Math.random() - 0.5) * 160;
+      constPos[i + 1] = (Math.random() - 0.5) * 60;
+      constPos[i + 2] = (Math.random() - 0.5) * 120;
+    }
+    constGeo.setAttribute('position', new THREE.BufferAttribute(constPos, 3));
+
+    var constMat = new THREE.PointsMaterial({
+      color: 0x38bdf8,
+      size: 0.8,
+      transparent: true,
+      opacity: 0.55
+    });
+    var constPoints = new THREE.Points(constGeo, constMat);
+    meshScene.add(constPoints);
+
+    // --- 2. Hero 3D Gyroscope Defense Core ---
+    var heroCanvas = document.getElementById('webgl-canvas');
+    var heroScene = new THREE.Scene();
+    var heroCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+    heroCamera.position.z = 5.2;
+
+    var heroRenderer = new THREE.WebGLRenderer({ canvas: heroCanvas, alpha: true, antialias: true });
+    heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    function resizeAllCanvases() {
+      meshRenderer.setSize(window.innerWidth, window.innerHeight);
+      meshCamera.aspect = window.innerWidth / window.innerHeight;
+      meshCamera.updateProjectionMatrix();
+
+      if (heroCanvas && heroCanvas.parentElement) {
+        var box = heroCanvas.parentElement.getBoundingClientRect();
+        heroRenderer.setSize(box.width, box.height);
+        heroCamera.aspect = box.width / box.height;
+        heroCamera.updateProjectionMatrix();
+      }
+    }
+    window.addEventListener('resize', resizeAllCanvases);
+
+    var shieldGroup = new THREE.Group();
+    heroScene.add(shieldGroup);
+
+    var shieldGeo = new THREE.IcosahedronGeometry(1.6, 1);
+    var shieldMat = new THREE.MeshBasicMaterial({
+      color: 0x2563eb,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.35
+    });
+    var shieldMesh = new THREE.Mesh(shieldGeo, shieldMat);
+    shieldGroup.add(shieldMesh);
+
+    var outerGeo = new THREE.IcosahedronGeometry(2.1, 2);
+    var outerMat = new THREE.MeshBasicMaterial({
+      color: 0x1d4ed8,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.15
+    });
+    var outerWireMesh = new THREE.Mesh(outerGeo, outerMat);
+    shieldGroup.add(outerWireMesh);
+
+    var pCount = 220;
+    var pGeo = new THREE.BufferGeometry();
+    var pPos = new Float32Array(pCount * 3);
+
+    for (var i = 0; i < pCount * 3; i += 3) {
+      var rad = 2.4 + Math.random() * 0.4;
+      var theta = Math.random() * Math.PI * 2;
+      var phi = Math.acos((Math.random() * 2) - 1);
+      pPos[i] = rad * Math.sin(phi) * Math.cos(theta);
+      pPos[i + 1] = rad * Math.sin(phi) * Math.sin(theta);
+      pPos[i + 2] = rad * Math.cos(phi);
+    }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+
+    var pMat = new THREE.PointsMaterial({
+      color: 0x38bdf8,
+      size: 0.05,
+      transparent: true,
+      opacity: 0.85
+    });
+    var particlePoints = new THREE.Points(pGeo, pMat);
+    shieldGroup.add(particlePoints);
+
+    var mouseX = 0, mouseY = 0;
+    var targetX = 0, targetY = 0;
+    var clock = new THREE.Clock();
+
+    window.addEventListener('mousemove', function(e) {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    function animate3D() {
+      requestAnimationFrame(animate3D);
+      var elapsedTime = clock.getElapsedTime();
+
+      var pos = terrainGeo.attributes.position;
+      for (var i = 0; i < pos.count; i++) {
+        var u = pos.getX(i);
+        var v = pos.getY(i);
+        var wave = Math.sin(u * 0.08 + elapsedTime * 1.2) * Math.cos(v * 0.08 + elapsedTime * 1.0) * 3.5;
+        pos.setZ(i, originalZ[i] + wave);
+      }
+      pos.needsUpdate = true;
+      terrainMesh.rotation.z = Math.sin(elapsedTime * 0.1) * 0.05;
+
+      constPoints.rotation.y = elapsedTime * 0.03;
+      constPoints.rotation.x = Math.sin(elapsedTime * 0.02) * 0.05;
+
+      meshCamera.position.x += (mouseX * 12 - meshCamera.position.x) * 0.03;
+      meshCamera.position.y += (-mouseY * 8 + 50 - meshCamera.position.y) * 0.03;
+      meshCamera.lookAt(0, 0, 0);
+      meshRenderer.render(meshScene, meshCamera);
+
+      shieldMesh.rotation.y += 0.003;
+      shieldMesh.rotation.x += 0.002;
+      outerWireMesh.rotation.y -= 0.002;
+      outerWireMesh.rotation.z += 0.001;
+      particlePoints.rotation.y += 0.001;
+
+      targetX += (mouseX - targetX) * 0.05;
+      targetY += (mouseY - targetY) * 0.05;
+      shieldGroup.rotation.y = targetX * 0.5;
+      shieldGroup.rotation.x = -targetY * 0.3;
+
+      heroRenderer.render(heroScene, heroCamera);
+    }
+
+    /* ==========================================================================
+       GEMINI API INTEGRATION & DEFENSIVE SANITIZATION ENGINE
+       ========================================================================== */
+    let apiKey = localStorage.getItem('raxa_gemini_api_key') || "";
+    let latestReportText = "";
+
+    function updateApiKeyUI() {
+      const dot = document.getElementById('apikey-indicator-dot');
+      const text = document.getElementById('apikey-indicator-text');
+      const badge = document.getElementById('intel-model-badge');
+      const input = document.getElementById('apikey-input');
+
+      if (apiKey && apiKey.trim().length > 0) {
+        if (dot) dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+        if (text) text.innerText = "API Key: Live Grounded";
+        if (badge) badge.innerText = "● Engine: Live Grounded AI";
+        if (input) input.value = apiKey;
+      } else {
+        if (dot) dot.className = "w-2 h-2 rounded-full bg-amber-400";
+        if (text) text.innerText = "API Key: Fallback Mode";
+        if (badge) badge.innerText = "● Engine: Sovereign Core (Set Key)";
+        if (input) input.value = "";
+      }
+    }
+
+    function openApiKeyModal() {
+      const modal = document.getElementById('apikey-modal');
+      const input = document.getElementById('apikey-input');
+      if (input) input.value = apiKey;
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeApiKeyModal() {
+      const modal = document.getElementById('apikey-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function saveApiKey(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('apikey-input');
+      const keyVal = input ? input.value.trim() : "";
+      apiKey = keyVal;
+      localStorage.setItem('raxa_gemini_api_key', keyVal);
+      updateApiKeyUI();
+      closeApiKeyModal();
+      showToast(keyVal ? "Gemini API Key activated successfully." : "Switched to Sovereign Fallback mode.");
+    }
+
+    function clearApiKey() {
+      apiKey = "";
+      localStorage.removeItem('raxa_gemini_api_key');
+      const input = document.getElementById('apikey-input');
+      if (input) input.value = "";
+      updateApiKeyUI();
+      closeApiKeyModal();
+      showToast("API Key cleared. Using Sovereign offline engine.");
+    }
+
+    async function fetchGeminiWithBackoff(url, payload, maxRetries = 5) {
+      const delays = [1000, 2000, 4000, 8000, 16000];
+      for (let i = 0; i < maxRetries; i++) {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (response.ok) {
+            return await response.json();
+          }
+          if (response.status === 429 || response.status >= 500) {
+            await new Promise(r => setTimeout(r, delays[i] || 16000));
+            continue;
+          }
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error?.message || `HTTP ${response.status}`);
+        } catch (err) {
+          if (i === maxRetries - 1) throw err;
+          await new Promise(r => setTimeout(r, delays[i] || 16000));
+        }
+      }
+    }
+
+    function getSovereignThreatFallback(query) {
+      const qLower = query.toLowerCase();
+      if (qLower.includes('xz') || qLower.includes('3094')) {
+        return `### **EXECUTIVE THREAT SUMMARY & CVSS/SEVERITY SCORE**
+**Target Vector:** CVE-2024-3094 (XZ Utils Liblzma Upstream Supply-Chain Backdoor)  
+**CVSS v3.1 Base Score:** **10.0 (CRITICAL)** // Attack Vector: Network, Privileges: None, Impact: Complete Root Compromise.
+
+### **ACTIVE ATTACK VECTORS & AFFECTED TOPOLOGIES**
+- **Affected Distributions:** Debian testing/unstable, Fedora Rawhide/40, openSUSE Tumbleweed/MicroOS running \`xz-utils\` 5.6.0 & 5.6.1.
+- **Exploitation Mechanism:** Sophisticated multi-stage malicious payload injected during release tarball creation targeting \`systemd\` notifying sockets and hooking \`RSA_public_decrypt\` in OpenSSH \`sshd\`.
+
+### **MITRE ATT&CK TECHNIQUES IDENTIFIED**
+- **T1195.001:** Supply Chain Compromise: Compromise Software Dependencies
+- **T1059.006:** Command and Scripting Interpreter: Python/M4/Shell Obfuscation
+- **T1556:** Modify Authentication Process (OpenSSH Pre-Auth Hook)
+
+### **RAXA ZERO-TRUST CONTAINMENT PLAYBOOK**
+1. **Sub-Minute Telemetry Query:** Scan all container images and Linux hosts for \`liblzma.so.5.6.0\` / \`liblzma.so.5.6.1\`.
+2. **Immediate Eviction:** Downgrade packages to \`xz-utils 5.4.x\` or deploy hardened sovereign Alpine/RHEL images.
+3. **Perimeter Isolation:** Enforce microsegmentation on port 22 and restrict direct SSH access via RAXA Zero-Trust Identity Bastions.`;
+      } else if (qLower.includes('salt typhoon') || qLower.includes('infrastructure')) {
+        return `### **EXECUTIVE THREAT SUMMARY & CVSS/SEVERITY SCORE**
+**Threat Actor Group:** **Salt Typhoon (GhostEmperor / UNC2286)** **Target Sector:** Telecommunications, Critical Infrastructure, Sovereign Government Routing  
+**Severity Assessment:** **MAXIMUM / NATION-STATE ESPIONAGE**
+
+### **ACTIVE ATTACK VECTORS & AFFECTED TOPOLOGIES**
+- **Primary Vectors:** Advanced Living-off-the-Land (LotL), exploitation of unpatched Cisco/Juniper routing infrastructure, wiretap compliance portal infiltration.
+- **Topology Exposure:** Core telecommunication switching centers, MPLS backbones, and lawful intercept administrative interfaces.
+
+### **MITRE ATT&CK TECHNIQUES IDENTIFIED**
+- **T1190:** Exploit Public-Facing Application (Edge Network Gateways)
+- **T1078:** Valid Accounts & Stolen Telecommunication Provider Credentials
+- **T1041:** Exfiltration Over C2 Encrypted Covert Channels
+
+### **RAXA ZERO-TRUST CONTAINMENT PLAYBOOK**
+1. **Autonomous Route Attestation:** Trigger cryptographic configuration verification across all border BGP & OSPF routers.
+2. **Session Eviction:** Revoke all administrative sessions, rotate ISP-level VPN private keys, and enforce FIDO2 hardware MFA.
+3. **Forensic Hunting:** Ingest raw NetFlow and router memory images into the RAXA SIEM lake for anomalous C2 packet analysis.`;
+      } else {
+        return `### **EXECUTIVE THREAT SUMMARY & CVSS/SEVERITY SCORE**
+**Target Vector:** ${escapeHtml(query)}  
+**CVSS / Severity Rating:** **HIGH / CRITICAL EXPOSURE** **Assessment:** Active exploitation signatures identified across hybrid enterprise topologies.
+
+### **ACTIVE ATTACK VECTORS & AFFECTED TOPOLOGIES**
+- **Vulnerability Surface:** Unauthenticated API endpoints, identity federation trust boundaries, and unpatched cloud workloads.
+- **Blast Radius:** Lateral movement potential across AWS IAM roles, Azure Entra ID tenants, and Kubernetes runtime clusters.
+
+### **MITRE ATT&CK TECHNIQUES IDENTIFIED**
+- **T1078:** Valid Accounts / Privilege Escalation
+- **T1068:** Exploitation for Privilege Escalation
+- **T1046:** Network Service Discovery & Lateral Spread
+
+### **RAXA ZERO-TRUST CONTAINMENT PLAYBOOK**
+1. **Machine-Speed Isolation:** Apply RAXA SOAR playbook RX-AUTOPRIV-01 to immediately isolate affected host endpoints from the VPC.
+2. **Credential Rotation:** Trigger automated API key and session token invalidation across all IAM identity providers.
+3. **Continuous Attestation:** Deploy kernel-level behavioral monitoring to prevent persistent Living-off-the-Land callbacks.`;
+      }
+    }
+
+    function setThreatChip(query) {
+      document.getElementById('threat-query-input').value = query;
+      runThreatIntelQuery();
+    }
+
+    async function runThreatIntelQuery(e) {
+      if (e) e.preventDefault();
+      const query = document.getElementById('threat-query-input').value.trim();
+      if (!query) return;
+
+      const submitBtn = document.getElementById('threat-submit-btn');
+      const outputBody = document.getElementById('intel-output-body');
+      const statusHeader = document.getElementById('intel-status-header');
+      const citationsContainer = document.getElementById('intel-citations-container');
+      const citationsList = document.getElementById('intel-citations-list');
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+        <span>Querying Live Threat Feeds...</span>
+      `;
+      statusHeader.innerText = "TRIAGE IN PROGRESS // SEARCH GROUNDING ENGAGED";
+      statusHeader.className = "text-xs font-bold font-mono-cyber uppercase text-amber-400";
+
+      outputBody.innerHTML = `
+        <div class="p-4 rounded-xl bg-[var(--terminal-bg)] border border-amber-500/30 font-mono-cyber text-xs text-amber-300 space-y-2 animate-pulse">
+          <div>[>] Connecting to RAXA Global Threat Radar & Google Grounding...</div>
+          <div>[>] Ingesting CVE telemetry, active in-the-wild exploitation vectors, and MITRE mapping for: "${escapeHtml(query)}"...</div>
+        </div>
+      `;
+
+      if (!apiKey || apiKey.trim().length === 0) {
+        setTimeout(() => {
+          const fallbackText = getSovereignThreatFallback(query);
+          latestReportText = fallbackText;
+          outputBody.innerHTML = formatMarkdownToHTML(fallbackText) + `
+            <div class="mt-4 p-3 rounded-lg bg-[var(--bg-card)] border border-[var(--border-navy)] text-xs text-[var(--cyan-accent)] flex items-center justify-between">
+              <span>⚡ Synthesized via RAXA Sovereign Offline Threat Intelligence Engine.</span>
+              <button onclick="openApiKeyModal()" class="px-2.5 py-1 rounded bg-[var(--navy-primary)] text-white text-[0.7rem] font-bold hover:bg-[var(--navy-deep)] cursor-pointer">Connect Gemini Key</button>
+            </div>
+          `;
+          statusHeader.innerText = "TRIAGE COMPLETE // SOVEREIGN THREAT MODEL";
+          statusHeader.className = "text-xs font-bold font-mono-cyber uppercase text-emerald-400";
+          document.getElementById('intel-timestamp').innerText = new Date().toLocaleTimeString() + " UTC";
+          citationsContainer.classList.add('hidden');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Execute Grounded Triage</span>
+          `;
+          showToast("Threat telemetry synthesized via Sovereign Engine.");
+        }, 600);
+        return;
+      }
+
+      try {
+        const systemPrompt = `You are RAXA's Principal Threat Intelligence Architect (RAXA-Intel Engine). 
+Analyze the requested cybersecurity threat/CVE/actor using real-time information from Google Search.
+Format your output cleanly in markdown with these distinct sections:
+1. **EXECUTIVE THREAT SUMMARY & CVSS/SEVERITY SCORE**
+2. **ACTIVE ATTACK VECTORS & AFFECTED TOPOLOGIES**
+3. **MITRE ATT&CK TECHNIQUES IDENTIFIED**
+4. **RAXA ZERO-TRUST CONTAINMENT PLAYBOOK** (Specific actionable steps to isolate, patch, or mitigate in sub-minute SLAs).
+Maintain an elite, authoritative sovereign cyber defense persona. Keep it concise, high-impact, and directly actionable.`;
+
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const payload = {
+          contents: [{ parts: [{ text: `Analyze this cybersecurity vulnerability or threat vector: "${query}"` }] }],
+          tools: [{ "google_search": {} }],
+          systemInstruction: { parts: [{ text: systemPrompt }] }
+        };
+
+        const result = await fetchGeminiWithBackoff(apiUrl, payload);
+        const candidate = result.candidates?.[0];
+        const text = candidate?.content?.parts?.[0]?.text;
+
+        if (!text) {
+          throw new Error("No telemetry returned from threat analysis engine.");
+        }
+
+        latestReportText = text;
+
+        let sources = [];
+        const groundingMetadata = candidate.groundingMetadata;
+        if (groundingMetadata && groundingMetadata.groundingAttributions) {
+          sources = groundingMetadata.groundingAttributions
+            .map(attr => ({ uri: attr.web?.uri, title: attr.web?.title }))
+            .filter(s => s.uri && s.title);
+        }
+
+        outputBody.innerHTML = formatMarkdownToHTML(text);
+        statusHeader.innerText = "TRIAGE COMPLETE // ATTACK SURFACE SCOPED";
+        statusHeader.className = "text-xs font-bold font-mono-cyber uppercase text-emerald-400";
+        document.getElementById('intel-timestamp').innerText = new Date().toLocaleTimeString() + " UTC";
+
+        if (sources.length > 0) {
+          citationsList.innerHTML = sources.slice(0, 5).map(s => `
+            <a href="${escapeHtml(s.uri)}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--cyan-accent)] text-[var(--cyan-accent)] hover:underline truncate max-w-[280px]">
+              ${escapeHtml(s.title)}
+            </a>
+          `).join('');
+          citationsContainer.classList.remove('hidden');
+        } else {
+          citationsContainer.classList.add('hidden');
+        }
+
+        showToast("Threat intelligence report synthesized successfully.");
+      } catch (err) {
+        const fallbackText = getSovereignThreatFallback(query);
+        latestReportText = fallbackText;
+        outputBody.innerHTML = formatMarkdownToHTML(fallbackText) + `
+          <div class="mt-4 p-3 rounded-lg bg-amber-950/20 border border-amber-500/40 text-xs text-amber-300 flex items-center justify-between">
+            <span>Note: Using Sovereign Fallback (${escapeHtml(err.message)}).</span>
+            <button onclick="openApiKeyModal()" class="px-2.5 py-1 rounded bg-[var(--navy-primary)] text-white text-[0.7rem] font-bold hover:bg-[var(--navy-deep)] cursor-pointer">Update API Key</button>
+          </div>
+        `;
+        statusHeader.innerText = "TRIAGE COMPLETE // SOVEREIGN ENGINE ACTIVE";
+        statusHeader.className = "text-xs font-bold font-mono-cyber uppercase text-emerald-400";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span>Execute Grounded Triage</span>
+        `;
+      }
+    }
+
+    function getSovereignVCISOFallback(industry, framework, cloud, painpoint) {
+      return `### **1. EXECUTIVE AUDIT READINESS ESTIMATION**
+- **Current Posture Score:** **62 / 100** (Moderate Risk Exposure)
+- **Target Compliance:** **${escapeHtml(framework)}** on **${escapeHtml(cloud)}**
+- **Target Attestation Timeline:** **90 Days with RAXA Sovereign Automation**
+
+### **2. TOP 3 CRITICAL GAP EXPOSURES**
+1. **IAM Boundary Over-Privilege:** Unscoped administrative trust policies and dormant service accounts lacking continuous privilege recertification.
+2. **Audit Log Non-Immutability:** Log lake retention does not guarantee tamper-proof Write-Once-Read-Many (WORM) storage required by ${escapeHtml(framework)}.
+3. **Workload Microsegmentation Gap:** Ingress controllers and Kubernetes namespace pods allow lateral East-West traffic without Zero-Trust mutual TLS.
+
+### **3. 30-DAY CRITICAL CONTROLS (PHASE 1: FOUNDATION)**
+- Enforce mandatory FIDO2 hardware MFA across all ${escapeHtml(cloud)} consoles and CLI sessions.
+- Deploy CIS Benchmark Level 2 baselines to all container worker nodes and developer endpoints.
+- Auto-generate cryptographic asset inventory (CMDB) synced with trust platform evidence lockers (Vanta/Drata).
+
+### **4. 60-DAY ARCHITECTURAL CONTROLS (PHASE 2: ZERO-TRUST ENFORCEMENT)**
+- Implement Automated Least-Privilege IAM Boundary Policies and Just-In-Time (JIT) access elevation.
+- Encrypt all S3/Blob storage at rest using customer-managed sovereign KMS keys with annual key rotation.
+- Execute full offensive VAPT penetration test to identify and remediate OWASP Top 10 vulnerabilities.
+
+### **5. 90-DAY AUDIT ATTESTATION ROADMAP (PHASE 3: BOARD ASSURANCE)**
+- Complete pre-audit dry run with designated CPA / ISO Lead Auditor.
+- Finalize Board-Ready System Description, Security Policies, and Incident Response Playbook.
+- Issue RAXA Attestation of Compliance and continuous evidence telemetry pipeline.`;
+    }
+
+    async function generateVCISOAudit() {
+      const industry = document.getElementById('vciso-industry').value;
+      const framework = document.getElementById('vciso-framework').value;
+      const cloud = document.getElementById('vciso-cloud').value;
+      const painPoint = document.getElementById('vciso-painpoint').value || "Zero-trust hardening";
+
+      const btn = document.getElementById('vciso-generate-btn');
+      const resultsView = document.getElementById('vciso-results-view');
+      const statusPill = document.getElementById('vciso-status-pill');
+
+      btn.disabled = true;
+      btn.innerHTML = `<svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg><span>Synthesizing Audit Blueprint...</span>`;
+      statusPill.innerText = "COMPUTING GAP MATRIX...";
+
+      resultsView.innerHTML = `
+        <div class="space-y-3 font-mono-cyber text-xs text-amber-300 animate-pulse">
+          <div>[+] Correlating ${escapeHtml(framework)} Trust Services Criteria with ${escapeHtml(cloud)}...</div>
+          <div>[+] Assessing IAM privilege boundaries, data isolation, and continuous logging evidence...</div>
+          <div>[+] Formulating 30-60-90 day sovereign mitigation roadmap...</div>
+        </div>
+      `;
+
+      if (!apiKey || apiKey.trim().length === 0) {
+        setTimeout(() => {
+          const blueprint = getSovereignVCISOFallback(industry, framework, cloud, painPoint);
+          resultsView.innerHTML = formatMarkdownToHTML(blueprint) + `
+            <div class="mt-4 p-3 rounded-lg bg-[var(--bg-card)] border border-[var(--border-navy)] text-xs text-[var(--cyan-accent)] flex items-center justify-between">
+              <span>⚡ Generated via RAXA Sovereign vCISO Blueprint Engine.</span>
+              <button onclick="openApiKeyModal()" class="px-2.5 py-1 rounded bg-[var(--navy-primary)] text-white text-[0.7rem] font-bold hover:bg-[var(--navy-deep)] cursor-pointer">Configure Gemini Key</button>
+            </div>
+          `;
+          statusPill.innerText = "AUDIT ROADMAP GENERATED";
+          statusPill.className = "text-[0.65rem] font-mono-cyber text-emerald-400";
+          btn.disabled = false;
+          btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg><span>Generate Sovereign Audit Plan</span>`;
+          showToast("vCISO Gap Blueprint synthesized successfully.");
+        }, 700);
+        return;
+      }
+
+      try {
+        const systemPrompt = `You are RAXA's Chief Information Security Officer (vCISO Engine). 
+Generate a comprehensive, structured gap assessment and compliance readiness roadmap for an enterprise with the specified profile.
+Include:
+1. **EXECUTIVE AUDIT READINESS ESTIMATION** (Score out of 100% and risk profile).
+2. **TOP 3 CRITICAL GAP EXPOSURES** (Specific to their cloud topology).
+3. **30-DAY CRITICAL CONTROLS (PHASE 1)** (Immediate low-effort, high-impact fixes).
+4. **60-DAY ARCHITECTURAL CONTROLS (PHASE 2)** (Zero-trust microsegmentation, SSO/MFA, CSPM).
+5. **90-DAY AUDIT ATTESTATION ROADMAP (PHASE 3)** (Evidence automation & continuous monitoring).
+Keep the tone executive, precise, and authoritative. Use clean Markdown styling.`;
+
+        const userPrompt = `Industry: ${industry}\nTarget Compliance Framework: ${framework}\nCloud Topology: ${cloud}\nKey Security Challenge: ${painPoint}`;
+
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const payload = {
+          contents: [{ parts: [{ text: userPrompt }] }],
+          systemInstruction: { parts: [{ text: systemPrompt }] }
+        };
+
+        const result = await fetchGeminiWithBackoff(apiUrl, payload);
+        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!text) throw new Error("No audit blueprint received from vCISO engine.");
+
+        resultsView.innerHTML = formatMarkdownToHTML(text);
+        statusPill.innerText = "AUDIT ROADMAP GENERATED";
+        statusPill.className = "text-[0.65rem] font-mono-cyber text-emerald-400";
+        showToast("vCISO Gap Blueprint successfully generated.");
+      } catch (err) {
+        const fallbackBlueprint = getSovereignVCISOFallback(industry, framework, cloud, painPoint);
+        resultsView.innerHTML = formatMarkdownToHTML(fallbackBlueprint) + `
+          <div class="mt-4 p-3 rounded-lg bg-amber-950/20 border border-amber-500/40 text-xs text-amber-300 flex items-center justify-between">
+            <span>Note: Generated via Sovereign Core Engine (${escapeHtml(err.message)}).</span>
+            <button onclick="openApiKeyModal()" class="px-2.5 py-1 rounded bg-[var(--navy-primary)] text-white text-[0.7rem] font-bold hover:bg-[var(--navy-deep)] cursor-pointer">Update API Key</button>
+          </div>
+        `;
+        statusPill.innerText = "ROADMAP ACTIVE";
+        statusPill.className = "text-[0.65rem] font-mono-cyber text-emerald-400";
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg><span>Generate Sovereign Audit Plan</span>`;
+      }
+    }
+
+    let currentTTXScore = 100;
+
+    async function startNewTTXScenario() {
+      const title = document.getElementById('ttx-scenario-title');
+      const body = document.getElementById('ttx-scenario-body');
+      const actions = document.getElementById('ttx-actions-container');
+      const scoreEl = document.getElementById('ttx-score-display');
+
+      currentTTXScore = 100;
+      scoreEl.innerText = `SECURITY SCORE: ${currentTTXScore}/100`;
+      title.innerText = "WAR-GAME // INJECTING THREAT SCENARIO...";
+      body.innerHTML = `
+        <div class="p-4 rounded-xl bg-[var(--terminal-bg)] border border-red-500/30 text-xs font-mono-cyber text-red-300 animate-pulse space-y-1">
+          <div>[!] Synthesizing active ransomware extortion / cloud exfiltration war-game...</div>
+          <div>[!] Initializing adversary timeline and SOC alert triggers...</div>
+        </div>
+      `;
+      actions.classList.add('hidden');
+
+      if (!apiKey || apiKey.trim().length === 0) {
+        setTimeout(() => {
+          title.innerText = "ACTIVE INCIDENT // ENTERPRISE RANSOMWARE EXTORTION";
+          body.innerHTML = formatMarkdownToHTML(`### **INCIDENT INJECTION: CLOUD WORKLOAD COMPROMISE**
+**Discovery Time:** 02:14:08 UTC // Alert Severity: **P1 CRITICAL** **Blast Radius:** 14 AWS EKS Microservices, Multi-Tenant Postgres RDS, and S3 Immutable Backup Vault.  
+**Adversary Vector:** Compromised CI/CD GitHub Actions secret key used to inject a persistent WebShell, exfiltrate customer PII database dumps, and stage encryption binaries across production nodes.  
+**Extortion Demand:** 45 BTC requested within 24 hours with double-extortion leak site countdown active.`);
+
+          const choicesGrid = document.getElementById('ttx-choices-grid');
+          choicesGrid.innerHTML = `
+            <button onclick="handleTTXChoice('A', 'Auto-Isolate workloads & revoke all active session tokens immediately.')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-navy)] hover:border-[var(--cyan-accent)] hover:bg-[var(--bg-card)] text-xs font-mono-cyber text-[var(--text-main)] transition-all cursor-pointer">
+              <span class="text-[var(--cyan-accent)] font-bold">[ACTION A]</span> Auto-Isolate workloads & revoke all active session tokens immediately.
+            </button>
+            <button onclick="handleTTXChoice('B', 'Keep clusters online to monitor exfiltration telemetry and capture RAM dumps.')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-navy)] hover:border-amber-400 hover:bg-[var(--bg-card)] text-xs font-mono-cyber text-[var(--text-main)] transition-all cursor-pointer">
+              <span class="text-amber-400 font-bold">[ACTION B]</span> Keep clusters online to monitor exfiltration telemetry and capture RAM dumps.
+            </button>
+            <button onclick="handleTTXChoice('C', 'Contact extortion threat actor immediately to negotiate ransom suppression.')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-red-500/40 hover:border-red-500 hover:bg-red-950/20 text-xs font-mono-cyber text-red-300 transition-all cursor-pointer">
+              <span class="text-red-400 font-bold">[ACTION C]</span> Contact extortion threat actor immediately to negotiate ransom suppression.
+            </button>
+          `;
+          actions.classList.remove('hidden');
+        }, 600);
+        return;
+      }
+
+      try {
+        const prompt = `Generate a realistic, high-stakes cybersecurity crisis incident (e.g. ransomware encryption of hybrid cloud storage, stolen OAuth admin tokens, or insider data theft). 
+Provide:
+1. **SCENARIO CONTEXT**: What happened, time of discovery, affected assets, and potential blast radius.
+2. **DECISION POINT 1**: Present 3 distinct choices the Incident Commander can make (Action A: Containment-focused, Action B: Business-continuity focused, Action C: Passive/Misguided).
+Format clearly in Markdown.`;
+
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const payload = {
+          contents: [{ parts: [{ text: prompt }] }],
+          systemInstruction: { parts: [{ text: "You are RAXA's Crisis War-Game Director. Build realistic, technical, high-stakes incident response exercises." }] }
+        };
+
+        const result = await fetchGeminiWithBackoff(apiUrl, payload);
+        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!text) throw new Error("Could not initialize scenario.");
+
+        title.innerText = "ACTIVE INCIDENT // COMMAND ACTIONS REQUIRED";
+        body.innerHTML = formatMarkdownToHTML(text);
+
+        const choicesGrid = document.getElementById('ttx-choices-grid');
+        choicesGrid.innerHTML = `
+          <button onclick="handleTTXChoice('A', 'Aggressive SOAR automated token revocation and network isolation')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-navy)] hover:border-[var(--cyan-accent)] hover:bg-[var(--bg-card)] text-xs font-mono-cyber text-[var(--text-main)] transition-all cursor-pointer">
+            <span class="text-[var(--cyan-accent)] font-bold">[ACTION A]</span> Auto-Isolate workloads & revoke all active session tokens immediately.
+          </button>
+          <button onclick="handleTTXChoice('B', 'Keep systems online for forensics while monitoring exfiltration telemetry')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-navy)] hover:border-amber-400 hover:bg-[var(--bg-card)] text-xs font-mono-cyber text-[var(--text-main)] transition-all cursor-pointer">
+            <span class="text-amber-400 font-bold">[ACTION B]</span> Maintain cluster uptime to capture memory dumps and adversary C2 channels.
+          </button>
+          <button onclick="handleTTXChoice('C', 'Immediately pay initial extortion negotiation demand')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-red-500/40 hover:border-red-500 hover:bg-red-950/20 text-xs font-mono-cyber text-red-300 transition-all cursor-pointer">
+            <span class="text-red-400 font-bold">[ACTION C]</span> Contact ransomware negotiator and agree to suppression fee without verifying decryptor.
+          </button>
+        `;
+        actions.classList.remove('hidden');
+      } catch (err) {
+        body.innerHTML = `<div class="text-red-400 font-mono-cyber">// Scenario Error: ${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    async function handleTTXChoice(choiceLetter, choiceDescription) {
+      const body = document.getElementById('ttx-scenario-body');
+      const actions = document.getElementById('ttx-actions-container');
+      const scoreEl = document.getElementById('ttx-score-display');
+
+      if (choiceLetter === 'A') {
+        currentTTXScore = Math.min(100, currentTTXScore + 5);
+      } else if (choiceLetter === 'B') {
+        currentTTXScore = Math.max(0, currentTTXScore - 15);
+      } else {
+        currentTTXScore = Math.max(0, currentTTXScore - 40);
+      }
+
+      scoreEl.innerText = `SECURITY SCORE: ${currentTTXScore}/100`;
+      body.innerHTML += `
+        <div class="mt-4 p-4 rounded-xl bg-[var(--terminal-bg)] border border-[var(--cyan-accent)] font-mono-cyber text-xs text-[var(--cyan-accent)]">
+          [>] COMMAND EXECUTED: ${escapeHtml(choiceDescription)}
+          <br>[>] Analyzing blast radius outcome...
+        </div>
+      `;
+      actions.classList.add('hidden');
+
+      if (!apiKey || apiKey.trim().length === 0) {
+        setTimeout(() => {
+          let outcome = "";
+          if (choiceLetter === 'A') {
+            outcome = `### **1. TACTICAL OUTCOME (EXCELLENT CONTAINMENT)**
+- **Lateral Movement:** Completely halted. SOAR playbook severed lateral RPC conduits before the payload reached the disaster recovery vault.
+- **Data Protection:** Customer PII database was shielded before staging was complete.
+
+### **2. REGULATORY & LEGAL COMPLIANCE**
+- Mandatory notification windows (SEC 4-Day / GDPR 72-Hour) preserved with clean forensic timeline attestation.
+
+### **3. FINAL VERDICT & RECOMMENDATIONS**
+- **Score Impact:** +5 Points (Resilient Command Decision).
+- **Remediation:** Rotate all CI/CD deployment keys and enforce ephemeral IAM assume-role policies.`;
+          } else if (choiceLetter === 'B') {
+            outcome = `### **1. TACTICAL OUTCOME (EXTENDED EXPOSURE)**
+- **Lateral Movement:** The adversary detected monitoring and accelerated data exfiltration of secondary databases.
+- **Forensic Benefit:** Captured memory dump of C2 beacon, but at the cost of broader data leakage.
+
+### **2. REGULATORY & LEGAL COMPLIANCE**
+- Increased potential fine liabilities under PIPEDA / GDPR due to preventable data exposure.`;
+          } else {
+            outcome = `### **1. TACTICAL OUTCOME (CRITICAL FAILURE)**
+- **Extortion Risk:** Paying the threat actor without verifying sovereign decryptors resulted in corrupted database keys and re-extortion.
+
+### **2. REGULATORY & LEGAL COMPLIANCE**
+- Potential violation of OFAC sanctions rules regarding unverified ransomware entity payments.`;
+          }
+          body.innerHTML += formatMarkdownToHTML(outcome);
+          showToast("War-game turn evaluated.");
+        }, 600);
+        return;
+      }
+
+      try {
+        const prompt = `The Incident Commander chose Action ${choiceLetter}: "${choiceDescription}". 
+Evaluate this decision against industry best practices (NIST SP 800-61 / CISA guidelines).
+Explain:
+1. **TACTICAL OUTCOME**: Did this stop lateral movement or increase blast radius?
+2. **REGULATORY & LEGAL CONSEQUENCES**: Mandatory breach notification triggers (SEC 4-day, GDPR 72-hr, PIPEDA).
+3. **FINAL VERDICT**: Score impact and executive recommendations.`;
+
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const payload = {
+          contents: [{ parts: [{ text: prompt }] }],
+          systemInstruction: { parts: [{ text: "You are RAXA's Crisis War-Game Evaluator." }] }
+        };
+
+        const result = await fetchGeminiWithBackoff(apiUrl, payload);
+        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) {
+          body.innerHTML += formatMarkdownToHTML(text);
+          showToast("War-game turn evaluated.");
+        }
+      } catch (err) {
+        body.innerHTML += `<div class="text-red-400 font-mono-cyber">// Evaluation Error: ${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    // --- Defensive Sanitization & Markdown Renderer ---
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>'"]/g, function(tag) {
+        return ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag);
+      });
+    }
+
+    function formatMarkdownToHTML(md) {
+      if (!md) return '';
+      // Escape all HTML to eliminate XSS before applying safe tags
+      let safe = escapeHtml(md);
+      let html = safe
+        .replace(/^### (.*$)/gim, '<h4 class="text-base font-bold text-[var(--cyan-accent)] mt-4 mb-1.5">$1</h4>')
+        .replace(/^## (.*$)/gim, '<h3 class="text-lg font-bold text-[var(--navy-bright)] mt-5 mb-2">$1</h3>')
+        .replace(/^# (.*$)/gim, '<h2 class="text-xl font-bold text-[var(--text-main)] mt-6 mb-2.5">$1</h2>')
+        .replace(/\*\*(.*?)\*\*/gim, '<strong class="text-[var(--text-main)] font-bold">$1</strong>')
+        .replace(/\*(.*?)\*/gim, '<em class="text-[var(--text-muted)]">$1</em>')
+        .replace(/`([^`]+)`/gim, '<code class="px-1.5 py-0.5 rounded bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--cyan-accent)] font-mono-cyber text-[0.8em]">$1</code>')
+        .replace(/^\s*[\-\*]\s+(.*)$/gim, '<li class="text-xs text-[var(--text-muted)] leading-relaxed pl-2">$1</li>')
+        .replace(/\n\n+/gim, '<p class="my-2.5 text-xs leading-relaxed text-[var(--text-muted)]"></p>');
+      return html;
+    }
+
+    function copyThreatReport() {
+      if (!latestReportText) {
+        showToast("No report to copy. Run a query first.");
+        return;
+      }
+      const dummy = document.createElement('textarea');
+      dummy.value = latestReportText;
+      document.body.appendChild(dummy);
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+      showToast("Triage report copied to clipboard!");
+    }
+
+    // --- UI Navigation & Tab Controllers ---
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      const icon = document.getElementById('theme-icon');
+      const label = document.getElementById('theme-label');
+
+      if (theme === 'dark') {
+        if (icon) icon.textContent = '☀️';
+        if (label) label.textContent = 'Light';
+        shieldMat.color.setHex(0x2563eb);
+        outerMat.color.setHex(0x1d4ed8);
+        pMat.color.setHex(0x38bdf8);
+        terrainMat.color.setHex(0x1e3a8a);
+        constMat.color.setHex(0x38bdf8);
+        terrainMat.opacity = 0.22;
+      } else {
+        if (icon) icon.textContent = '🌙';
+        if (label) label.textContent = 'Dark';
+        shieldMat.color.setHex(0x1d4ed8);
+        outerMat.color.setHex(0x2563eb);
+        pMat.color.setHex(0x0284c7);
+        terrainMat.color.setHex(0x93c5fd);
+        constMat.color.setHex(0x0284c7);
+        terrainMat.opacity = 0.35;
+      }
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = (current === 'dark') ? 'light' : 'dark';
+      applyTheme(next);
+    }
+
+    function switchServiceTab(category) {
+      document.getElementById('service-group-sec').classList.add('hidden');
+      document.getElementById('service-group-it').classList.add('hidden');
+      document.getElementById('service-group-comp').classList.add('hidden');
+
+      document.getElementById('tab-btn-sec').classList.remove('active');
+      document.getElementById('tab-btn-it').classList.remove('active');
+      document.getElementById('tab-btn-comp').classList.remove('active');
+
+      if (category === 'sec') {
+        document.getElementById('service-group-sec').classList.remove('hidden');
+        document.getElementById('tab-btn-sec').classList.add('active');
+      } else if (category === 'it') {
+        document.getElementById('service-group-it').classList.remove('hidden');
+        document.getElementById('tab-btn-it').classList.add('active');
+      } else if (category === 'comp') {
+        document.getElementById('service-group-comp').classList.remove('hidden');
+        document.getElementById('tab-btn-comp').classList.add('active');
+      }
+    }
+
+    function navigateToAssurance(e) {
+      if (e) e.preventDefault();
+      switchServiceTab('comp');
+      const el = document.getElementById('services');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    let counter = 1842;
+    setInterval(function() {
+      counter += Math.floor(Math.random() * 3) + 1;
+      const el = document.getElementById('hero-threat-counter');
+      if (el) el.innerText = counter.toLocaleString();
+    }, 4500);
+
+    function openModal(packageName) {
+      const pkgInput = document.getElementById('form-package');
+      if (pkgInput) pkgInput.value = packageName;
+      const modal = document.getElementById('contact-modal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('contact-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast-box');
+      const msg = document.getElementById('toast-msg');
+      if (toast && msg) {
+        msg.innerText = message;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 5000);
+      }
+    }
+
+    const WEB3FORMS_ACCESS_KEY = "a438268e-6344-4d2c-92ca-fd325f01ea6b";
+
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : "Submit";
+
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+
+      // Structure Web3Forms ingestion metadata
+      payload.access_key = WEB3FORMS_ACCESS_KEY;
+      payload.subject = `[RAXA Defense Intake] New RFP from ${payload.name || payload.work_email || payload.email || 'Client'}`;
+      payload.from_name = "RAXA Sovereign Web Intake";
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+          <svg class="animate-spin h-4 w-4 text-white inline mr-2" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+          <span>Transmitting RFP to Principal Architects...</span>
+        `;
+      }
+
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showToast("Intake Received: A Principal Security Architect from Raxa.ca will reach out within 24h.");
+          form.reset();
+          closeModal();
+        } else {
+          throw new Error(result.message || "Transmission failed.");
+        }
+      } catch (err) {
+        console.error("Web3Forms transmission error:", err);
+        showToast("Briefing transmission logged. You can also reach defense@raxa.ca directly.");
+        closeModal();
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
+      }
+    }
+
+    window.onload = function() {
+      updateApiKeyUI();
+      resizeAllCanvases();
+      animate3D();
+    };
+  </script>
+</body>
+</html>
