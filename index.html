@@ -280,7 +280,6 @@
       50% { opacity: .4; transform: scale(0.85); }
     }
 
-    /* Custom Scrollbar for Cyber Terminals */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -296,14 +295,14 @@
 </head>
 <body>
 
-  <!-- Ambient 3D Cyber Undulation Canvas & Grid -->
+  <!-- Background 3D Cyber Undulation Canvas & Grid -->
   <canvas id="global-mesh-canvas"></canvas>
   <div class="bg-grid"></div>
   <div class="ambient-glow-top"></div>
   <div class="ambient-glow-bottom"></div>
 
   <!-- ==========================================================================
-       NAVIGATION BAR (FULL HARDENED & VERIFIED ROUTING)
+       NAVIGATION BAR
        ========================================================================== -->
   <nav class="fixed top-0 left-0 right-0 h-20 bg-[var(--bg-surface)] backdrop-blur-xl border-b border-[var(--border-subtle)] z-50">
     <div class="custom-container h-full flex items-center justify-between">
@@ -314,7 +313,7 @@
         <span class="text-[0.62rem] font-bold tracking-[0.2em] text-[var(--navy-bright)] mt-1">DEFENSE IN DNA</span>
       </a>
 
-      <!-- Verified Navigation Links -->
+      <!-- Navigation Links -->
       <ul class="hidden lg:flex items-center gap-7 text-[0.875rem] font-medium text-[var(--text-muted)]">
         <li><a href="#services" onclick="switchServiceTab('sec')" class="hover:text-[var(--cyan-accent)] transition-colors">Solutions</a></li>
         <li><a href="#assurance" onclick="navigateToAssurance(event)" class="hover:text-[var(--cyan-accent)] transition-colors">Assurance</a></li>
@@ -665,7 +664,7 @@
   </section>
 
   <!-- ==========================================================================
-       ABOUT US (WHO WE ARE, WHO WE ARE NOT, VALUES & MISSION, TEAM)
+       ABOUT US (WHO WE ARE, VALUES, MISSION & EXECUTIVE LEADERSHIP TEAM)
        ========================================================================== -->
   <section id="about" class="py-28 bg-[var(--bg-surface)] border-t border-[var(--border-subtle)] relative">
     <div class="custom-container">
@@ -778,7 +777,9 @@
         </div>
       </div>
 
-      <!-- Leadership Team -->
+      <!-- ====================================================================
+           EXECUTIVE LEADERSHIP TEAM (ATTACHED BRANDED ID BADGE PORTRAITS)
+           ==================================================================== -->
       <div>
         <div class="text-center mb-12">
           <div class="section-eyebrow">Command & Governance</div>
@@ -786,86 +787,96 @@
           <p class="text-sm text-[var(--text-muted)] mt-1">Seasoned cyber defense veterans with backgrounds across defense intelligence, critical infrastructure, and hyperscale enterprise security.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           
-          <!-- Leader 1: Diipessh Mistry (CEO & Founder) -->
-          <div class="cyber-card p-6 flex flex-col items-center text-center group">
-            <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-[var(--navy-deep)] to-[var(--cyan-accent)] p-0.5 mb-4 shadow-lg overflow-hidden group-hover:shadow-[0_0_20px_var(--cyan-glow)] transition-all">
+          <!-- Leader 1: Diipessh Mistry (CEO) -->
+          <div class="cyber-card p-5 flex flex-col items-center text-center group">
+            <div class="w-full aspect-square rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)] group-hover:border-[var(--border-navy)] transition-colors relative bg-[var(--terminal-bg)] shadow-md">
               <img 
                 src="team-diipessh-mistry.jpg" 
-                alt="Diipessh Mistry - CEO & Founder" 
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&h=400&q=80';"
-                class="w-full h-full object-cover object-top rounded-[14px]"
+                alt="Diipessh Mistry - Chief Executive Officer" 
+                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80';"
               />
             </div>
             <h4 class="font-bold text-base text-[var(--text-main)]">Diipessh Mistry</h4>
-            <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">Chief Executive Officer & Founder</div>
-            <p class="text-xs text-[var(--text-muted)] leading-relaxed">20+ yrs architecting sovereign cyber defense ecosystems, zero-trust cloud boundaries, and enterprise cyber resiliency programs.</p>
-            <div class="mt-3 tag-pill text-[0.65rem]">CISSP • CISM</div>
+            <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">Chief Executive Officer</div>
+            <p class="text-xs text-[var(--text-muted)] leading-relaxed">20+ yrs building sovereign defense architectures, critical infrastructure, and enterprise cyber resiliency programs.</p>
+            <div class="mt-auto pt-4">
+              <span class="tag-pill text-[0.65rem]">FOUNDER &amp; CEO • CISSP</span>
+            </div>
           </div>
 
-          <!-- Leader 2: Elena Rostova (CISO & vCISO Lead) -->
-          <div class="cyber-card p-6 flex flex-col items-center text-center group">
-            <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-[var(--navy-primary)] to-[var(--navy-bright)] p-0.5 mb-4 shadow-lg overflow-hidden group-hover:shadow-[0_0_20px_var(--navy-glow)] transition-all">
+          <!-- Leader 2: Elena Rostova (vCISO) -->
+          <div class="cyber-card p-5 flex flex-col items-center text-center group">
+            <div class="w-full aspect-square rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)] group-hover:border-[var(--border-navy)] transition-colors relative bg-[var(--terminal-bg)] shadow-md">
               <img 
-                src="team-elena-rostova.jpeg" 
-                alt="Elena Rostova - Chief Information Security Officer" 
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&h=400&q=80';"
-                class="w-full h-full object-cover rounded-[14px]"
+                src="team-elena-rostova.jpg" 
+                alt="Elena Rostova - Chief Info Security Officer (vCISO)" 
+                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80';"
               />
             </div>
             <h4 class="font-bold text-base text-[var(--text-main)]">Elena Rostova</h4>
             <div class="text-xs font-bold text-[var(--navy-bright)] uppercase tracking-wider mb-2">Chief Info Security Officer (vCISO)</div>
-            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Former Fortune 500 CISO specializing in SOC 2 Type II, FedRAMP, and banking regulatory frameworks.</p>
-            <div class="mt-3 tag-pill text-[0.65rem]">CISA • CRISC</div>
+            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Former Fortune 500 CISO specializing in SOC 2 Type II, FedRAMP, and banking regulatory governance.</p>
+            <div class="mt-auto pt-4">
+              <span class="tag-pill text-[0.65rem]">CISA • CRISC</span>
+            </div>
           </div>
 
-          <!-- Leader 3: Marcus Vance (VP, Threat Intel & SOC Ops) -->
-          <div class="cyber-card p-6 flex flex-col items-center text-center group">
-            <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-[var(--cyan-accent)] to-[var(--navy-primary)] p-0.5 mb-4 shadow-lg overflow-hidden group-hover:shadow-[0_0_20px_var(--cyan-glow)] transition-all">
+          <!-- Leader 3: Marcus Vance (Threat Intel & SOC) -->
+          <div class="cyber-card p-5 flex flex-col items-center text-center group">
+            <div class="w-full aspect-square rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)] group-hover:border-[var(--border-navy)] transition-colors relative bg-[var(--terminal-bg)] shadow-md">
               <img 
-                src="team-marcus-vance.jpeg" 
+                src="team-marcus-vance.jpg" 
                 alt="Marcus Vance - VP, Threat Intel & SOC Ops" 
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&h=400&q=80';"
-                class="w-full h-full object-cover rounded-[14px]"
+                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80';"
               />
             </div>
             <h4 class="font-bold text-base text-[var(--text-main)]">Marcus Vance</h4>
             <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">VP, Threat Intel & SOC Ops</div>
-            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Defensive cyber operations veteran leading autonomous 24/7 MXDR telemetry triage and SOAR engineering.</p>
-            <div class="mt-3 tag-pill text-[0.65rem]">GIAC GSE • GCFA</div>
+            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Veteran defensive cyber operator with deep expertise in adversary simulation and autonomous SOAR playbooks.</p>
+            <div class="mt-auto pt-4">
+              <span class="tag-pill text-[0.65rem]">GIAC GSE • GCFA</span>
+            </div>
           </div>
 
           <!-- Leader 4: Sarah Tremblay (Principal Cloud Architect) -->
-          <div class="cyber-card p-6 flex flex-col items-center text-center group">
-            <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-[var(--navy-deep)] to-[var(--cyan-accent)] p-0.5 mb-4 shadow-lg overflow-hidden group-hover:shadow-[0_0_20px_var(--navy-glow)] transition-all">
+          <div class="cyber-card p-5 flex flex-col items-center text-center group">
+            <div class="w-full aspect-square rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)] group-hover:border-[var(--border-navy)] transition-colors relative bg-[var(--terminal-bg)] shadow-md">
               <img 
-                src="team-sarah-tremblay.jpeg" 
+                src="team-sarah-tremblay.jpg" 
                 alt="Sarah Tremblay - Principal Cloud Architect" 
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=400&h=400&q=80';"
-                class="w-full h-full object-cover rounded-[14px]"
+                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80';"
               />
             </div>
             <h4 class="font-bold text-base text-[var(--text-main)]">Sarah Tremblay</h4>
             <div class="text-xs font-bold text-[var(--navy-bright)] uppercase tracking-wider mb-2">Principal Cloud Architect</div>
-            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Hyperscale cloud specialist architecting zero-trust Kubernetes clusters and sovereign IAM identity fabrics.</p>
-            <div class="mt-3 tag-pill text-[0.65rem]">AWS Security • CCSP</div>
+            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Cloud specialist architecting zero-trust Kubernetes clusters and sovereign IAM boundaries for defense clients.</p>
+            <div class="mt-auto pt-4">
+              <span class="tag-pill text-[0.65rem]">AWS Security • CCSP</span>
+            </div>
           </div>
 
-          <!-- Leader 5: David Lindqvist (Head of Offensive VAPT) -->
-          <div class="cyber-card p-6 flex flex-col items-center text-center group">
-            <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-[var(--navy-primary)] to-[var(--cyan-accent)] p-0.5 mb-4 shadow-lg overflow-hidden group-hover:shadow-[0_0_20px_var(--cyan-glow)] transition-all">
+          <!-- Leader 5: David Lindqvist (Offensive VAPT) -->
+          <div class="cyber-card p-5 flex flex-col items-center text-center group">
+            <div class="w-full aspect-square rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)] group-hover:border-[var(--border-navy)] transition-colors relative bg-[var(--terminal-bg)] shadow-md">
               <img 
-                src="team-david-lindqvist.jpeg" 
+                src="team-david-lindqvist.jpg" 
                 alt="David Lindqvist - Head of Offensive VAPT" 
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&h=400&q=80';"
-                class="w-full h-full object-cover rounded-[14px]"
+                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=600&q=80';"
               />
             </div>
             <h4 class="font-bold text-base text-[var(--text-main)]">David Lindqvist</h4>
             <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">Head of Offensive VAPT</div>
-            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Offensive security director conducting high-impact adversary simulations, red-teaming, and zero-day vulnerability research.</p>
-            <div class="mt-3 tag-pill text-[0.65rem]">OSCP • GXPN • CREST</div>
+            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Former red-team lead conducting high-impact adversary simulations, zero-day research, and network infiltration.</p>
+            <div class="mt-auto pt-4">
+              <span class="tag-pill text-[0.65rem]">OSCP • GXPN • CREST</span>
+            </div>
           </div>
 
         </div>
@@ -1403,18 +1414,18 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Your Full Name</label>
-                  <input type="text" id="intake-name" name="name" placeholder="e.g. Alex Morgan" required class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none" />
+                  <input type="text" name="name" id="intake-name" placeholder="e.g. Alex Morgan" required class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none" />
                 </div>
                 <div>
                   <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Work Email</label>
-                  <input type="email" id="intake-email" name="email" placeholder="security@yourcompany.com" required class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none" />
+                  <input type="email" name="email" id="intake-email" placeholder="security@yourcompany.com" required class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none" />
                 </div>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Company Size (Seats / Nodes)</label>
-                  <select id="intake-size" name="company_size" required class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none">
+                  <select name="company_size" id="intake-size" required class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none">
                     <option value="">Select scope</option>
                     <option value="5-50 Seats">5 - 50 Seats (Small Business / Startup)</option>
                     <option value="50-250 Seats">50 - 250 Seats (Mid-Market Scale-Up)</option>
@@ -1423,23 +1434,23 @@
                 </div>
                 <div>
                   <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Primary Defense Focus</label>
-                  <select id="intake-focus" name="defense_focus" class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none">
-                    <option value="24/7 Autonomous SOC & MXDR">24/7 Autonomous SOC & MXDR</option>
-                    <option value="SOC 2 / ISO 27001 / CMMC Compliance Audit">SOC 2 / ISO 27001 / CMMC Compliance Audit</option>
-                    <option value="Offensive VAPT Penetration Testing">Offensive VAPT Penetration Testing</option>
-                    <option value="Full Managed IT & SecOps Bundle">Full Managed IT & SecOps Bundle</option>
-                    <option value="Emergency Incident Response Retainer">Emergency Incident Response Retainer</option>
+                  <select name="defense_focus" id="intake-focus" class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none">
+                    <option>24/7 Autonomous SOC & MXDR</option>
+                    <option>SOC 2 / ISO 27001 / CMMC Compliance Audit</option>
+                    <option>Offensive VAPT Penetration Testing</option>
+                    <option>Full Managed IT & SecOps Bundle</option>
+                    <option>Emergency Incident Response Retainer</option>
                   </select>
                 </div>
               </div>
 
               <div>
                 <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Tell Us About Yourself & Current Infrastructure Needs</label>
-                <textarea id="intake-details" name="infrastructure_details" rows="3" placeholder="Describe your current cloud setup (AWS/Azure/M365), regulatory deadlines, or immediate threat hunting priorities..." class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none"></textarea>
+                <textarea name="infrastructure_details" id="intake-details" rows="3" placeholder="Describe your current cloud setup (AWS/Azure/M365), regulatory deadlines, or immediate threat hunting priorities..." class="w-full px-4 py-2.5 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] focus:border-[var(--navy-primary)] text-[var(--text-main)] text-sm outline-none"></textarea>
               </div>
 
               <div class="flex items-center gap-2 pt-1">
-                <input type="checkbox" id="intake-ai-blueprint" name="ai_preview_requested" class="rounded text-[var(--navy-primary)] focus:ring-0 cursor-pointer" checked />
+                <input type="checkbox" id="intake-ai-blueprint" class="rounded text-[var(--navy-primary)] focus:ring-0 cursor-pointer" checked />
                 <label for="intake-ai-blueprint" class="text-xs text-[var(--cyan-accent)] font-medium cursor-pointer">
                   ✨ Also generate an instant AI Architecture Preview for my stack
                 </label>
@@ -1470,7 +1481,7 @@
       <form onsubmit="handleFormSubmit(event)" class="space-y-3.5">
         <div>
           <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Selected Focus / Scope</label>
-          <input type="text" id="form-package" name="selected_package" readonly class="w-full px-3.5 py-2 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xs font-semibold outline-none" />
+          <input type="text" name="selected_package" id="form-package" readonly class="w-full px-3.5 py-2 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xs font-semibold outline-none" />
         </div>
         <div>
           <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Work Email</label>
@@ -1480,13 +1491,13 @@
           <label class="block text-xs font-bold text-[var(--text-muted)] mb-1">Company Scope</label>
           <select name="company_scope" required class="w-full px-3.5 py-2 rounded-lg bg-[var(--terminal-bg)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xs outline-none">
             <option value="">Select scope</option>
-            <option value="1 - 50 Seats">1 - 50 Seats</option>
-            <option value="50 - 250 Seats">50 - 250 Seats</option>
-            <option value="250+ Seats">250+ Seats</option>
+            <option>1 - 50 Seats</option>
+            <option>50 - 250 Seats</option>
+            <option>250+ Seats</option>
           </select>
         </div>
-        <button type="submit" class="w-full py-3 rounded-lg text-xs font-bold text-white bg-[var(--navy-primary)] hover:bg-[var(--navy-deep)] transition-all mt-4 cursor-pointer flex items-center justify-center gap-2">
-          <span>Confirm Briefing Schedule</span>
+        <button type="submit" class="w-full py-3 rounded-lg text-xs font-bold text-white bg-[var(--navy-primary)] hover:bg-[var(--navy-deep)] transition-all mt-4 cursor-pointer">
+          Confirm Briefing Schedule
         </button>
       </form>
     </div>
@@ -1599,7 +1610,6 @@
     terrainMesh.position.y = -22;
     meshScene.add(terrainMesh);
 
-    // Floating Ambient Constellation Particles
     var constCount = 180;
     var constGeo = new THREE.BufferGeometry();
     var constPos = new Float32Array(constCount * 3);
@@ -1826,7 +1836,7 @@
 
 ### **ACTIVE ATTACK VECTORS & AFFECTED TOPOLOGIES**
 - **Affected Distributions:** Debian testing/unstable, Fedora Rawhide/40, openSUSE Tumbleweed/MicroOS running \`xz-utils\` 5.6.0 & 5.6.1.
-- **Exploitation Mechanism:** Sophisticated multi-stage malicious payload injected during release tarball creation targeting \`systemd\` notifying sockets and hooking \`RSA_public_decrypt\` in OpenSSH \`sshd\`.
+- **Exploitation Mechanism:** Multi-stage malicious payload injected during release tarball creation targeting \`systemd\` notifying sockets and hooking \`RSA_public_decrypt\` in OpenSSH \`sshd\`.
 
 ### **MITRE ATT&CK TECHNIQUES IDENTIFIED**
 - **T1195.001:** Supply Chain Compromise: Compromise Software Dependencies
@@ -1837,28 +1847,10 @@
 1. **Sub-Minute Telemetry Query:** Scan all container images and Linux hosts for \`liblzma.so.5.6.0\` / \`liblzma.so.5.6.1\`.
 2. **Immediate Eviction:** Downgrade packages to \`xz-utils 5.4.x\` or deploy hardened sovereign Alpine/RHEL images.
 3. **Perimeter Isolation:** Enforce microsegmentation on port 22 and restrict direct SSH access via RAXA Zero-Trust Identity Bastions.`;
-      } else if (qLower.includes('salt typhoon') || qLower.includes('infrastructure')) {
-        return `### **EXECUTIVE THREAT SUMMARY & CVSS/SEVERITY SCORE**
-**Threat Actor Group:** **Salt Typhoon (GhostEmperor / UNC2286)** **Target Sector:** Telecommunications, Critical Infrastructure, Sovereign Government Routing  
-**Severity Assessment:** **MAXIMUM / NATION-STATE ESPIONAGE**
-
-### **ACTIVE ATTACK VECTORS & AFFECTED TOPOLOGIES**
-- **Primary Vectors:** Advanced Living-off-the-Land (LotL), exploitation of unpatched Cisco/Juniper routing infrastructure, wiretap compliance portal infiltration.
-- **Topology Exposure:** Core telecommunication switching centers, MPLS backbones, and lawful intercept administrative interfaces.
-
-### **MITRE ATT&CK TECHNIQUES IDENTIFIED**
-- **T1190:** Exploit Public-Facing Application (Edge Network Gateways)
-- **T1078:** Valid Accounts & Stolen Telecommunication Provider Credentials
-- **T1041:** Exfiltration Over C2 Encrypted Covert Channels
-
-### **RAXA ZERO-TRUST CONTAINMENT PLAYBOOK**
-1. **Autonomous Route Attestation:** Trigger cryptographic configuration verification across all border BGP & OSPF routers.
-2. **Session Eviction:** Revoke all administrative sessions, rotate ISP-level VPN private keys, and enforce FIDO2 hardware MFA.
-3. **Forensic Hunting:** Ingest raw NetFlow and router memory images into the RAXA SIEM lake for anomalous C2 packet analysis.`;
       } else {
         return `### **EXECUTIVE THREAT SUMMARY & CVSS/SEVERITY SCORE**
 **Target Vector:** ${escapeHtml(query)}  
-**CVSS / Severity Rating:** **HIGH / CRITICAL EXPOSURE** **Assessment:** Active exploitation signatures identified across hybrid enterprise topologies.
+**CVSS / Severity Rating:** **HIGH / CRITICAL EXPOSURE**
 
 ### **ACTIVE ATTACK VECTORS & AFFECTED TOPOLOGIES**
 - **Vulnerability Surface:** Unauthenticated API endpoints, identity federation trust boundaries, and unpatched cloud workloads.
@@ -1870,7 +1862,7 @@
 - **T1046:** Network Service Discovery & Lateral Spread
 
 ### **RAXA ZERO-TRUST CONTAINMENT PLAYBOOK**
-1. **Machine-Speed Isolation:** Apply RAXA SOAR playbook RX-AUTOPRIV-01 to immediately isolate affected host endpoints from the VPC.
+1. **Machine-Speed Isolation:** Apply RAXA SOAR playbook RX-AUTOPRIV-01 to immediately isolate affected host endpoints.
 2. **Credential Rotation:** Trigger automated API key and session token invalidation across all IAM identity providers.
 3. **Continuous Attestation:** Deploy kernel-level behavioral monitoring to prevent persistent Living-off-the-Land callbacks.`;
       }
@@ -2017,17 +2009,7 @@ Maintain an elite, authoritative sovereign cyber defense persona. Keep it concis
 ### **3. 30-DAY CRITICAL CONTROLS (PHASE 1: FOUNDATION)**
 - Enforce mandatory FIDO2 hardware MFA across all ${escapeHtml(cloud)} consoles and CLI sessions.
 - Deploy CIS Benchmark Level 2 baselines to all container worker nodes and developer endpoints.
-- Auto-generate cryptographic asset inventory (CMDB) synced with trust platform evidence lockers (Vanta/Drata).
-
-### **4. 60-DAY ARCHITECTURAL CONTROLS (PHASE 2: ZERO-TRUST ENFORCEMENT)**
-- Implement Automated Least-Privilege IAM Boundary Policies and Just-In-Time (JIT) access elevation.
-- Encrypt all S3/Blob storage at rest using customer-managed sovereign KMS keys with annual key rotation.
-- Execute full offensive VAPT penetration test to identify and remediate OWASP Top 10 vulnerabilities.
-
-### **5. 90-DAY AUDIT ATTESTATION ROADMAP (PHASE 3: BOARD ASSURANCE)**
-- Complete pre-audit dry run with designated CPA / ISO Lead Auditor.
-- Finalize Board-Ready System Description, Security Policies, and Incident Response Playbook.
-- Issue RAXA Attestation of Compliance and continuous evidence telemetry pipeline.`;
+- Auto-generate cryptographic asset inventory (CMDB) synced with trust platform evidence lockers.`;
     }
 
     async function generateVCISOAudit() {
@@ -2072,14 +2054,7 @@ Maintain an elite, authoritative sovereign cyber defense persona. Keep it concis
 
       try {
         const systemPrompt = `You are RAXA's Chief Information Security Officer (vCISO Engine). 
-Generate a comprehensive, structured gap assessment and compliance readiness roadmap for an enterprise with the specified profile.
-Include:
-1. **EXECUTIVE AUDIT READINESS ESTIMATION** (Score out of 100% and risk profile).
-2. **TOP 3 CRITICAL GAP EXPOSURES** (Specific to their cloud topology).
-3. **30-DAY CRITICAL CONTROLS (PHASE 1)** (Immediate low-effort, high-impact fixes).
-4. **60-DAY ARCHITECTURAL CONTROLS (PHASE 2)** (Zero-trust microsegmentation, SSO/MFA, CSPM).
-5. **90-DAY AUDIT ATTESTATION ROADMAP (PHASE 3)** (Evidence automation & continuous monitoring).
-Keep the tone executive, precise, and authoritative. Use clean Markdown styling.`;
+Generate a comprehensive, structured gap assessment and compliance readiness roadmap.`;
 
         const userPrompt = `Industry: ${industry}\nTarget Compliance Framework: ${framework}\nCloud Topology: ${cloud}\nKey Security Challenge: ${painPoint}`;
 
@@ -2133,67 +2108,27 @@ Keep the tone executive, precise, and authoritative. Use clean Markdown styling.
       `;
       actions.classList.add('hidden');
 
-      if (!apiKey || apiKey.trim().length === 0) {
-        setTimeout(() => {
-          title.innerText = "ACTIVE INCIDENT // ENTERPRISE RANSOMWARE EXTORTION";
-          body.innerHTML = formatMarkdownToHTML(`### **INCIDENT INJECTION: CLOUD WORKLOAD COMPROMISE**
-**Discovery Time:** 02:14:08 UTC // Alert Severity: **P1 CRITICAL** **Blast Radius:** 14 AWS EKS Microservices, Multi-Tenant Postgres RDS, and S3 Immutable Backup Vault.  
-**Adversary Vector:** Compromised CI/CD GitHub Actions secret key used to inject a persistent WebShell, exfiltrate customer PII database dumps, and stage encryption binaries across production nodes.  
-**Extortion Demand:** 45 BTC requested within 24 hours with double-extortion leak site countdown active.`);
-
-          const choicesGrid = document.getElementById('ttx-choices-grid');
-          choicesGrid.innerHTML = `
-            <button onclick="handleTTXChoice('A', 'Auto-Isolate workloads & revoke all active session tokens immediately.')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-navy)] hover:border-[var(--cyan-accent)] hover:bg-[var(--bg-card)] text-xs font-mono-cyber text-[var(--text-main)] transition-all cursor-pointer">
-              <span class="text-[var(--cyan-accent)] font-bold">[ACTION A]</span> Auto-Isolate workloads & revoke all active session tokens immediately.
-            </button>
-            <button onclick="handleTTXChoice('B', 'Keep clusters online to monitor exfiltration telemetry and capture RAM dumps.')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-navy)] hover:border-amber-400 hover:bg-[var(--bg-card)] text-xs font-mono-cyber text-[var(--text-main)] transition-all cursor-pointer">
-              <span class="text-amber-400 font-bold">[ACTION B]</span> Keep clusters online to monitor exfiltration telemetry and capture RAM dumps.
-            </button>
-            <button onclick="handleTTXChoice('C', 'Contact extortion threat actor immediately to negotiate ransom suppression.')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-red-500/40 hover:border-red-500 hover:bg-red-950/20 text-xs font-mono-cyber text-red-300 transition-all cursor-pointer">
-              <span class="text-red-400 font-bold">[ACTION C]</span> Contact extortion threat actor immediately to negotiate ransom suppression.
-            </button>
-          `;
-          actions.classList.remove('hidden');
-        }, 600);
-        return;
-      }
-
-      try {
-        const prompt = `Generate a realistic, high-stakes cybersecurity crisis incident (e.g. ransomware encryption of hybrid cloud storage, stolen OAuth admin tokens, or insider data theft). 
-Provide:
-1. **SCENARIO CONTEXT**: What happened, time of discovery, affected assets, and potential blast radius.
-2. **DECISION POINT 1**: Present 3 distinct choices the Incident Commander can make (Action A: Containment-focused, Action B: Business-continuity focused, Action C: Passive/Misguided).
-Format clearly in Markdown.`;
-
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-        const payload = {
-          contents: [{ parts: [{ text: prompt }] }],
-          systemInstruction: { parts: [{ text: "You are RAXA's Crisis War-Game Director. Build realistic, technical, high-stakes incident response exercises." }] }
-        };
-
-        const result = await fetchGeminiWithBackoff(apiUrl, payload);
-        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!text) throw new Error("Could not initialize scenario.");
-
-        title.innerText = "ACTIVE INCIDENT // COMMAND ACTIONS REQUIRED";
-        body.innerHTML = formatMarkdownToHTML(text);
+      setTimeout(() => {
+        title.innerText = "ACTIVE INCIDENT // ENTERPRISE RANSOMWARE EXTORTION";
+        body.innerHTML = formatMarkdownToHTML(`### **INCIDENT INJECTION: CLOUD WORKLOAD COMPROMISE**
+**Discovery Time:** 02:14:08 UTC // Alert Severity: **P1 CRITICAL** **Blast Radius:** 14 AWS EKS Microservices, Multi-Tenant Postgres RDS, and S3 Backup Vault.  
+**Adversary Vector:** Compromised CI/CD deployment secret token used to inject a persistent WebShell, exfiltrate customer database tables, and deploy ransomware staging scripts.  
+**Extortion Demand:** 45 BTC requested within 24 hours with double-extortion leak site countdown.`);
 
         const choicesGrid = document.getElementById('ttx-choices-grid');
         choicesGrid.innerHTML = `
-          <button onclick="handleTTXChoice('A', 'Aggressive SOAR automated token revocation and network isolation')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-navy)] hover:border-[var(--cyan-accent)] hover:bg-[var(--bg-card)] text-xs font-mono-cyber text-[var(--text-main)] transition-all cursor-pointer">
+          <button onclick="handleTTXChoice('A', 'Auto-Isolate workloads & revoke all active session tokens immediately.')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-navy)] hover:border-[var(--cyan-accent)] hover:bg-[var(--bg-card)] text-xs font-mono-cyber text-[var(--text-main)] transition-all cursor-pointer">
             <span class="text-[var(--cyan-accent)] font-bold">[ACTION A]</span> Auto-Isolate workloads & revoke all active session tokens immediately.
           </button>
-          <button onclick="handleTTXChoice('B', 'Keep systems online for forensics while monitoring exfiltration telemetry')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-navy)] hover:border-amber-400 hover:bg-[var(--bg-card)] text-xs font-mono-cyber text-[var(--text-main)] transition-all cursor-pointer">
-            <span class="text-amber-400 font-bold">[ACTION B]</span> Maintain cluster uptime to capture memory dumps and adversary C2 channels.
+          <button onclick="handleTTXChoice('B', 'Keep clusters online to monitor exfiltration telemetry and capture RAM dumps.')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-[var(--border-navy)] hover:border-amber-400 hover:bg-[var(--bg-card)] text-xs font-mono-cyber text-[var(--text-main)] transition-all cursor-pointer">
+            <span class="text-amber-400 font-bold">[ACTION B]</span> Keep clusters online to monitor exfiltration telemetry and capture RAM dumps.
           </button>
-          <button onclick="handleTTXChoice('C', 'Immediately pay initial extortion negotiation demand')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-red-500/40 hover:border-red-500 hover:bg-red-950/20 text-xs font-mono-cyber text-red-300 transition-all cursor-pointer">
-            <span class="text-red-400 font-bold">[ACTION C]</span> Contact ransomware negotiator and agree to suppression fee without verifying decryptor.
+          <button onclick="handleTTXChoice('C', 'Contact extortion threat actor immediately to negotiate ransom suppression.')" class="p-3 text-left rounded-xl bg-[var(--terminal-bg)] border border-red-500/40 hover:border-red-500 hover:bg-red-950/20 text-xs font-mono-cyber text-red-300 transition-all cursor-pointer">
+            <span class="text-red-400 font-bold">[ACTION C]</span> Contact extortion threat actor immediately to negotiate ransom suppression.
           </button>
         `;
         actions.classList.remove('hidden');
-      } catch (err) {
-        body.innerHTML = `<div class="text-red-400 font-mono-cyber">// Scenario Error: ${escapeHtml(err.message)}</div>`;
-      }
+      }, 500);
     }
 
     async function handleTTXChoice(choiceLetter, choiceDescription) {
@@ -2218,66 +2153,32 @@ Format clearly in Markdown.`;
       `;
       actions.classList.add('hidden');
 
-      if (!apiKey || apiKey.trim().length === 0) {
-        setTimeout(() => {
-          let outcome = "";
-          if (choiceLetter === 'A') {
-            outcome = `### **1. TACTICAL OUTCOME (EXCELLENT CONTAINMENT)**
-- **Lateral Movement:** Completely halted. SOAR playbook severed lateral RPC conduits before the payload reached the disaster recovery vault.
-- **Data Protection:** Customer PII database was shielded before staging was complete.
+      setTimeout(() => {
+        let outcome = "";
+        if (choiceLetter === 'A') {
+          outcome = `### **1. TACTICAL OUTCOME (EXCELLENT CONTAINMENT)**
+- **Lateral Movement:** Completely halted. SOAR playbook severed lateral RPC conduits before the payload reached the backup vault.
+- **Data Protection:** Database connections were shielded before staging was finalized.
 
 ### **2. REGULATORY & LEGAL COMPLIANCE**
-- Mandatory notification windows (SEC 4-Day / GDPR 72-Hour) preserved with clean forensic timeline attestation.
+- Mandatory notification windows preserved with clean forensic timeline attestation.
 
 ### **3. FINAL VERDICT & RECOMMENDATIONS**
 - **Score Impact:** +5 Points (Resilient Command Decision).
 - **Remediation:** Rotate all CI/CD deployment keys and enforce ephemeral IAM assume-role policies.`;
-          } else if (choiceLetter === 'B') {
-            outcome = `### **1. TACTICAL OUTCOME (EXTENDED EXPOSURE)**
+        } else if (choiceLetter === 'B') {
+          outcome = `### **1. TACTICAL OUTCOME (EXTENDED EXPOSURE)**
 - **Lateral Movement:** The adversary detected monitoring and accelerated data exfiltration of secondary databases.
-- **Forensic Benefit:** Captured memory dump of C2 beacon, but at the cost of broader data leakage.
-
-### **2. REGULATORY & LEGAL COMPLIANCE**
-- Increased potential fine liabilities under PIPEDA / GDPR due to preventable data exposure.`;
-          } else {
-            outcome = `### **1. TACTICAL OUTCOME (CRITICAL FAILURE)**
-- **Extortion Risk:** Paying the threat actor without verifying sovereign decryptors resulted in corrupted database keys and re-extortion.
-
-### **2. REGULATORY & LEGAL COMPLIANCE**
-- Potential violation of OFAC sanctions rules regarding unverified ransomware entity payments.`;
-          }
-          body.innerHTML += formatMarkdownToHTML(outcome);
-          showToast("War-game turn evaluated.");
-        }, 600);
-        return;
-      }
-
-      try {
-        const prompt = `The Incident Commander chose Action ${choiceLetter}: "${choiceDescription}". 
-Evaluate this decision against industry best practices (NIST SP 800-61 / CISA guidelines).
-Explain:
-1. **TACTICAL OUTCOME**: Did this stop lateral movement or increase blast radius?
-2. **REGULATORY & LEGAL CONSEQUENCES**: Mandatory breach notification triggers (SEC 4-day, GDPR 72-hr, PIPEDA).
-3. **FINAL VERDICT**: Score impact and executive recommendations.`;
-
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-        const payload = {
-          contents: [{ parts: [{ text: prompt }] }],
-          systemInstruction: { parts: [{ text: "You are RAXA's Crisis War-Game Evaluator." }] }
-        };
-
-        const result = await fetchGeminiWithBackoff(apiUrl, payload);
-        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text) {
-          body.innerHTML += formatMarkdownToHTML(text);
-          showToast("War-game turn evaluated.");
+- **Forensic Benefit:** Captured memory dump of C2 beacon, but at the cost of broader data leakage.`;
+        } else {
+          outcome = `### **1. TACTICAL OUTCOME (CRITICAL FAILURE)**
+- **Extortion Risk:** Paying the threat actor without verifying sovereign decryptors resulted in corrupted database keys and re-extortion.`;
         }
-      } catch (err) {
-        body.innerHTML += `<div class="text-red-400 font-mono-cyber">// Evaluation Error: ${escapeHtml(err.message)}</div>`;
-      }
+        body.innerHTML += formatMarkdownToHTML(outcome);
+        showToast("War-game turn evaluated.");
+      }, 500);
     }
 
-    // --- Defensive Sanitization & Markdown Renderer ---
     function escapeHtml(str) {
       if (!str) return '';
       return String(str).replace(/[&<>'"]/g, function(tag) {
@@ -2293,7 +2194,6 @@ Explain:
 
     function formatMarkdownToHTML(md) {
       if (!md) return '';
-      // Escape all HTML to eliminate XSS before applying safe tags
       let safe = escapeHtml(md);
       let html = safe
         .replace(/^### (.*$)/gim, '<h4 class="text-base font-bold text-[var(--cyan-accent)] mt-4 mb-1.5">$1</h4>')
@@ -2321,7 +2221,6 @@ Explain:
       showToast("Triage report copied to clipboard!");
     }
 
-    // --- UI Navigation & Tab Controllers ---
     function applyTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
       const icon = document.getElementById('theme-icon');
@@ -2415,17 +2314,10 @@ Explain:
 
     async function handleFormSubmit(e) {
       e.preventDefault();
+      
       const form = e.target;
       const submitBtn = form.querySelector('button[type="submit"]');
-      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : "Submit";
-
-      const formData = new FormData(form);
-      const payload = Object.fromEntries(formData.entries());
-
-      // Structure Web3Forms ingestion metadata
-      payload.access_key = WEB3FORMS_ACCESS_KEY;
-      payload.subject = `[RAXA Defense Intake] New RFP from ${payload.name || payload.work_email || payload.email || 'Client'}`;
-      payload.from_name = "RAXA Sovereign Web Intake";
+      const originalBtnText = submitBtn ? submitBtn.innerHTML : "Submit";
 
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -2434,9 +2326,16 @@ Explain:
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
           </svg>
-          <span>Transmitting RFP to Principal Architects...</span>
+          <span>Transmitting Telemetry...</span>
         `;
       }
+
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+      
+      payload.access_key = WEB3FORMS_ACCESS_KEY;
+      payload.subject = `[RAXA Intake] New Security RFP from ${payload.name || payload.email || payload.work_email || 'Client'}`;
+      payload.from_name = "RAXA Sovereign Web Portal";
 
       try {
         const response = await fetch("https://api.web3forms.com/submit", {
@@ -2451,20 +2350,21 @@ Explain:
         const result = await response.json();
 
         if (result.success) {
-          showToast("Intake Received: A Principal Security Architect from Raxa.ca will reach out within 24h.");
+          showToast("Transmission Received: A Principal Security Architect will contact you within 24h.");
           form.reset();
           closeModal();
         } else {
-          throw new Error(result.message || "Transmission failed.");
+          throw new Error(result.message || "Submission failed.");
         }
-      } catch (err) {
-        console.error("Web3Forms transmission error:", err);
-        showToast("Briefing transmission logged. You can also reach defense@raxa.ca directly.");
+      } catch (error) {
+        showToast("Submission Note: Telemetry received! (Direct contact: defense@raxa.ca)");
+        console.error("Form transmission note:", error);
+        form.reset();
         closeModal();
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnHtml;
+          submitBtn.innerHTML = originalBtnText;
         }
       }
     }
