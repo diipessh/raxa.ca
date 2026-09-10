@@ -53,10 +53,6 @@
       --badge-bg: rgba(37, 99, 235, 0.12);
       --badge-border: rgba(59, 130, 246, 0.3);
       --badge-text: #93c5fd;
-      --grid-line: rgba(59, 130, 246, 0.045);
-      --hud-shadow: rgba(0, 0, 0, 0.65);
-      --ambient-particle: #38bdf8;
-      --mesh-line: #1e3a8a;
       --terminal-bg: #03060d;
     }
 
@@ -78,10 +74,6 @@
       --badge-bg: rgba(30, 64, 175, 0.06);
       --badge-border: rgba(30, 64, 175, 0.2);
       --badge-text: #1e40af;
-      --grid-line: rgba(15, 23, 42, 0.035);
-      --hud-shadow: rgba(15, 23, 42, 0.08);
-      --ambient-particle: #0284c7;
-      --mesh-line: #93c5fd;
       --terminal-bg: #f1f5f9;
     }
 
@@ -93,28 +85,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    #global-mesh-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.75;
-    }
-
-    .bg-grid {
-      position: fixed;
-      inset: 0;
-      background-image: 
-        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-      z-index: 1;
-    }
-
+    /* Ambient soft background lighting */
     .ambient-glow-top {
       position: fixed;
       top: -15%;
@@ -295,9 +266,7 @@
 </head>
 <body>
 
-  <!-- Background 3D Cyber Undulation Canvas & Grid -->
-  <canvas id="global-mesh-canvas"></canvas>
-  <div class="bg-grid"></div>
+  <!-- Ambient background glow layers -->
   <div class="ambient-glow-top"></div>
   <div class="ambient-glow-bottom"></div>
 
@@ -614,9 +583,9 @@
     </div>
   </section>
 
-  <!-- ==========================================================================
+  <!-- ==========================================
        FEATURE 3: CRISIS TABLE TOP EXERCISE (TTX) SIMULATOR
-       ========================================================================== -->
+       ========================================== -->
   <section id="ttx-simulator" class="py-24 bg-[var(--bg-surface)] border-y border-[var(--border-subtle)] relative">
     <div class="custom-container">
       
@@ -664,7 +633,7 @@
   </section>
 
   <!-- ==========================================================================
-       ABOUT US (WHO WE ARE, VALUES, MISSION & EXECUTIVE LEADERSHIP TEAM)
+       ABOUT US (WHO WE ARE, VALUES, MISSION & EXECUTIVE LEADERSHIP CADRE)
        ========================================================================== -->
   <section id="about" class="py-28 bg-[var(--bg-surface)] border-t border-[var(--border-subtle)] relative">
     <div class="custom-container">
@@ -778,108 +747,225 @@
       </div>
 
       <!-- ====================================================================
-           EXECUTIVE LEADERSHIP TEAM (ATTACHED BRANDED ID BADGE PORTRAITS)
+           CONCEPT 1: THE UNIFIED COMMAND CADRE (BENTO GRID OF OPERATIONAL OFFICES)
            ==================================================================== -->
       <div>
         <div class="text-center mb-12">
-          <div class="section-eyebrow">Command & Governance</div>
-          <h3 class="text-3xl font-bold">Executive Leadership Team</h3>
-          <p class="text-sm text-[var(--text-muted)] mt-1">Seasoned cyber defense veterans with backgrounds across defense intelligence, critical infrastructure, and hyperscale enterprise security.</p>
+          <div class="section-eyebrow flex items-center justify-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[var(--cyan-accent)] pulse-dot"></span>
+            INSTITUTIONAL DEFENSE GOVERNANCE // OPSEC PROTOCOL
+          </div>
+          <h3 class="text-3xl font-bold">Executive Governance & Command Cadre</h3>
+          <p class="text-sm text-[var(--text-muted)] mt-2 max-w-2xl mx-auto">
+            In accordance with strict Operational Security (OPSEC) policies protecting our analysts, architects, and enterprise client enclaves, RAXA operates under an institutional leadership cadre model backed by sovereign clearances, verified credentials, and deep bench depth.
+          </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        <!-- 6-Card Responsive Bento Grid of Operational Directorates -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           
-          <!-- Leader 1: Diipessh Mistry (CEO) -->
-          <div class="cyber-card p-5 flex flex-col items-center text-center group">
-            <div class="w-full aspect-square rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)] group-hover:border-[var(--border-navy)] transition-colors relative bg-[var(--terminal-bg)] shadow-md">
-              <img 
-                src="team-diipessh-mistry.jpg" 
-                alt="Diipessh Mistry - Chief Executive Officer" 
-                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80';"
-              />
+          <!-- Directorate 1: Office of the Chief Executive & Principal Architect -->
+          <div class="cyber-card p-7 flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <div class="icon-badge">
+                  <svg class="w-6 h-6 text-[var(--cyan-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                </div>
+                <span class="font-mono-cyber text-[0.65rem] font-bold text-[var(--cyan-accent)] px-2.5 py-1 rounded bg-[var(--terminal-bg)] border border-[var(--border-subtle)]">
+                  // CADRE: ARCH-01
+                </span>
+              </div>
+              <h4 class="text-lg font-bold text-[var(--text-main)] mb-1">Office of the Chief Executive & Principal Architect</h4>
+              <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-3">Strategic Sovereignty & Vision</div>
+              <p class="text-xs text-[var(--text-muted)] leading-relaxed mb-5">
+                Directs multi-region sovereign posture, zero-trust cryptographic boundary frameworks, and tier-1 defensive telemetry strategy for enterprise clients.
+              </p>
+              <div class="space-y-1.5 text-xs text-[var(--text-muted)] font-mono-cyber mb-6">
+                <div class="flex items-center justify-between"><span>Bench Experience:</span> <span class="text-[var(--text-main)] font-bold">20+ Years Principal</span></div>
+                <div class="flex items-center justify-between"><span>Clearance:</span> <span class="text-[var(--text-main)] font-bold">Tier-3 Sovereign</span></div>
+                <div class="flex items-center justify-between"><span>Escalation SLA:</span> <span class="text-[var(--cyan-accent)] font-bold">&lt; 30 Min Board Advisory</span></div>
+              </div>
             </div>
-            <h4 class="font-bold text-base text-[var(--text-main)]">Diipessh Mistry</h4>
-            <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">Chief Executive Officer</div>
-            <p class="text-xs text-[var(--text-muted)] leading-relaxed">20+ yrs building sovereign defense architectures, critical infrastructure, and enterprise cyber resiliency programs.</p>
-            <div class="mt-auto pt-4">
-              <span class="tag-pill text-[0.65rem]">FOUNDER &amp; CEO • CISSP</span>
-            </div>
-          </div>
-
-          <!-- Leader 2: Elena Rostova (vCISO) -->
-          <div class="cyber-card p-5 flex flex-col items-center text-center group">
-            <div class="w-full aspect-square rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)] group-hover:border-[var(--border-navy)] transition-colors relative bg-[var(--terminal-bg)] shadow-md">
-              <img 
-                src="team-elena-rostova.jpg" 
-                alt="Elena Rostova - Chief Info Security Officer (vCISO)" 
-                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80';"
-              />
-            </div>
-            <h4 class="font-bold text-base text-[var(--text-main)]">Elena Rostova</h4>
-            <div class="text-xs font-bold text-[var(--navy-bright)] uppercase tracking-wider mb-2">Chief Info Security Officer (vCISO)</div>
-            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Former Fortune 500 CISO specializing in SOC 2 Type II, FedRAMP, and banking regulatory governance.</p>
-            <div class="mt-auto pt-4">
-              <span class="tag-pill text-[0.65rem]">CISA • CRISC</span>
+            <div class="pt-4 border-t border-[var(--border-subtle)] flex flex-wrap gap-1.5">
+              <span class="tag-pill text-[0.62rem]">CISSP</span>
+              <span class="tag-pill text-[0.62rem]">CCSP</span>
+              <span class="tag-pill text-[0.62rem]">TOGAF 9.2</span>
             </div>
           </div>
 
-          <!-- Leader 3: Marcus Vance (Threat Intel & SOC) -->
-          <div class="cyber-card p-5 flex flex-col items-center text-center group">
-            <div class="w-full aspect-square rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)] group-hover:border-[var(--border-navy)] transition-colors relative bg-[var(--terminal-bg)] shadow-md">
-              <img 
-                src="team-marcus-vance.jpg" 
-                alt="Marcus Vance - VP, Threat Intel & SOC Ops" 
-                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80';"
-              />
+          <!-- Directorate 2: Directorate of Information Security & vCISO Advisory -->
+          <div class="cyber-card p-7 flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <div class="icon-badge">
+                  <svg class="w-6 h-6 text-[var(--navy-bright)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <span class="font-mono-cyber text-[0.65rem] font-bold text-[var(--navy-bright)] px-2.5 py-1 rounded bg-[var(--terminal-bg)] border border-[var(--border-subtle)]">
+                  // CADRE: GOV-02
+                </span>
+              </div>
+              <h4 class="text-lg font-bold text-[var(--text-main)] mb-1">Directorate of Information Security & vCISO Advisory</h4>
+              <div class="text-xs font-bold text-[var(--navy-bright)] uppercase tracking-wider mb-3">Governance, Risk & Compliance (GRC)</div>
+              <p class="text-xs text-[var(--text-muted)] leading-relaxed mb-5">
+                Leads turnkey audit readiness, policy orchestration, third-party risk mitigation, and executive compliance attestations across rigorous frameworks.
+              </p>
+              <div class="space-y-1.5 text-xs text-[var(--text-muted)] font-mono-cyber mb-6">
+                <div class="flex items-center justify-between"><span>Oversight:</span> <span class="text-[var(--text-main)] font-bold">SOC 2 • ISO 27001 • CMMC</span></div>
+                <div class="flex items-center justify-between"><span>Audit Success:</span> <span class="text-[var(--text-main)] font-bold">100% Attestation Track</span></div>
+                <div class="flex items-center justify-between"><span>Cadence:</span> <span class="text-[var(--navy-bright)] font-bold">Continuous Evidence Sync</span></div>
+              </div>
             </div>
-            <h4 class="font-bold text-base text-[var(--text-main)]">Marcus Vance</h4>
-            <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">VP, Threat Intel & SOC Ops</div>
-            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Veteran defensive cyber operator with deep expertise in adversary simulation and autonomous SOAR playbooks.</p>
-            <div class="mt-auto pt-4">
-              <span class="tag-pill text-[0.65rem]">GIAC GSE • GCFA</span>
-            </div>
-          </div>
-
-          <!-- Leader 4: Sarah Tremblay (Principal Cloud Architect) -->
-          <div class="cyber-card p-5 flex flex-col items-center text-center group">
-            <div class="w-full aspect-square rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)] group-hover:border-[var(--border-navy)] transition-colors relative bg-[var(--terminal-bg)] shadow-md">
-              <img 
-                src="team-sarah-tremblay.jpg" 
-                alt="Sarah Tremblay - Principal Cloud Architect" 
-                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80';"
-              />
-            </div>
-            <h4 class="font-bold text-base text-[var(--text-main)]">Sarah Tremblay</h4>
-            <div class="text-xs font-bold text-[var(--navy-bright)] uppercase tracking-wider mb-2">Principal Cloud Architect</div>
-            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Cloud specialist architecting zero-trust Kubernetes clusters and sovereign IAM boundaries for defense clients.</p>
-            <div class="mt-auto pt-4">
-              <span class="tag-pill text-[0.65rem]">AWS Security • CCSP</span>
+            <div class="pt-4 border-t border-[var(--border-subtle)] flex flex-wrap gap-1.5">
+              <span class="tag-pill text-[0.62rem]">CISA</span>
+              <span class="tag-pill text-[0.62rem]">CRISC</span>
+              <span class="tag-pill text-[0.62rem]">CISM</span>
+              <span class="tag-pill text-[0.62rem]">ISO LA</span>
             </div>
           </div>
 
-          <!-- Leader 5: David Lindqvist (Offensive VAPT) -->
-          <div class="cyber-card p-5 flex flex-col items-center text-center group">
-            <div class="w-full aspect-square rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)] group-hover:border-[var(--border-navy)] transition-colors relative bg-[var(--terminal-bg)] shadow-md">
-              <img 
-                src="team-david-lindqvist.jpg" 
-                alt="David Lindqvist - Head of Offensive VAPT" 
-                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=600&q=80';"
-              />
+          <!-- Directorate 3: Autonomous SOC & Threat Operations Command -->
+          <div class="cyber-card p-7 flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <div class="icon-badge">
+                  <svg class="w-6 h-6 text-[var(--cyan-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <span class="font-mono-cyber text-[0.65rem] font-bold text-[var(--cyan-accent)] px-2.5 py-1 rounded bg-[var(--terminal-bg)] border border-[var(--border-subtle)]">
+                  // CADRE: SOC-03
+                </span>
+              </div>
+              <h4 class="text-lg font-bold text-[var(--text-main)] mb-1">Autonomous SOC & Threat Operations Command</h4>
+              <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-3">24/7 MXDR & Incident Response</div>
+              <p class="text-xs text-[var(--text-muted)] leading-relaxed mb-5">
+                Commands 24/7/365 active telemetry ingestion, hypothesis threat hunting, automated SOAR playbooks, and sub-minute malware eviction cells.
+              </p>
+              <div class="space-y-1.5 text-xs text-[var(--text-muted)] font-mono-cyber mb-6">
+                <div class="flex items-center justify-between"><span>Watch Post:</span> <span class="text-[var(--text-main)] font-bold">24/7/365 Canadian Centers</span></div>
+                <div class="flex items-center justify-between"><span>Containment SLA:</span> <span class="text-emerald-400 font-bold">&lt; 15 Min P1 Response</span></div>
+                <div class="flex items-center justify-between"><span>Playbook Automation:</span> <span class="text-[var(--cyan-accent)] font-bold">SOAR Machine-Speed</span></div>
+              </div>
             </div>
-            <h4 class="font-bold text-base text-[var(--text-main)]">David Lindqvist</h4>
-            <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-2">Head of Offensive VAPT</div>
-            <p class="text-xs text-[var(--text-muted)] leading-relaxed">Former red-team lead conducting high-impact adversary simulations, zero-day research, and network infiltration.</p>
-            <div class="mt-auto pt-4">
-              <span class="tag-pill text-[0.65rem]">OSCP • GXPN • CREST</span>
+            <div class="pt-4 border-t border-[var(--border-subtle)] flex flex-wrap gap-1.5">
+              <span class="tag-pill text-[0.62rem]">GIAC GSE</span>
+              <span class="tag-pill text-[0.62rem]">GCFA</span>
+              <span class="tag-pill text-[0.62rem]">GNFA</span>
+              <span class="tag-pill text-[0.62rem]">GCIH</span>
+            </div>
+          </div>
+
+          <!-- Directorate 4: Offensive Security & Red Team Operations Cell -->
+          <div class="cyber-card p-7 flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <div class="icon-badge text-red-400 border-red-500/30 bg-red-500/10">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                </div>
+                <span class="font-mono-cyber text-[0.65rem] font-bold text-red-400 px-2.5 py-1 rounded bg-[var(--terminal-bg)] border border-red-500/30">
+                  // CADRE: RED-04
+                </span>
+              </div>
+              <h4 class="text-lg font-bold text-[var(--text-main)] mb-1">Offensive Security & Red Team Operations Cell</h4>
+              <div class="text-xs font-bold text-red-400 uppercase tracking-wider mb-3">VAPT, Exploitation & Threat Emulation</div>
+              <p class="text-xs text-[var(--text-muted)] leading-relaxed mb-5">
+                Executes CREST-aligned adversary simulations, zero-day surface probes, Active Directory domain escalation testing, and perimeter bypass research.
+              </p>
+              <div class="space-y-1.5 text-xs text-[var(--text-muted)] font-mono-cyber mb-6">
+                <div class="flex items-center justify-between"><span>Scope:</span> <span class="text-[var(--text-main)] font-bold">Web • API • AD • Cloud</span></div>
+                <div class="flex items-center justify-between"><span>Standard:</span> <span class="text-[var(--text-main)] font-bold">OWASP &amp; MITRE ATT&amp;CK</span></div>
+                <div class="flex items-center justify-between"><span>Deliverable:</span> <span class="text-red-400 font-bold">Proof of Exploit + Fix</span></div>
+              </div>
+            </div>
+            <div class="pt-4 border-t border-[var(--border-subtle)] flex flex-wrap gap-1.5">
+              <span class="tag-pill text-[0.62rem]">OSCP</span>
+              <span class="tag-pill text-[0.62rem]">GXPN</span>
+              <span class="tag-pill text-[0.62rem]">CREST CRT</span>
+              <span class="tag-pill text-[0.62rem]">CRTE</span>
+            </div>
+          </div>
+
+          <!-- Directorate 5: Enterprise Bedrock Systems Engineering -->
+          <div class="cyber-card p-7 flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <div class="icon-badge">
+                  <svg class="w-6 h-6 text-[var(--navy-bright)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+                </div>
+                <span class="font-mono-cyber text-[0.65rem] font-bold text-[var(--navy-bright)] px-2.5 py-1 rounded bg-[var(--terminal-bg)] border border-[var(--border-subtle)]">
+                  // CADRE: INF-05
+                </span>
+              </div>
+              <h4 class="text-lg font-bold text-[var(--text-main)] mb-1">Enterprise Bedrock Systems Engineering</h4>
+              <div class="text-xs font-bold text-[var(--navy-bright)] uppercase tracking-wider mb-3">Cloud Architecture, IAM & EUC</div>
+              <p class="text-xs text-[var(--text-muted)] leading-relaxed mb-5">
+                Engineers hardened foundation layers: zero-trust Azure Entra ID / AWS IAM Identity Center fabrics, Intune MDM, and immutable backup enclaves.
+              </p>
+              <div class="space-y-1.5 text-xs text-[var(--text-muted)] font-mono-cyber mb-6">
+                <div class="flex items-center justify-between"><span>Reliability:</span> <span class="text-[var(--text-main)] font-bold">Tier-4 Infrastructure Uptime</span></div>
+                <div class="flex items-center justify-between"><span>Provisioning:</span> <span class="text-[var(--text-main)] font-bold">Zero-Touch Intune / Jamf</span></div>
+                <div class="flex items-center justify-between"><span>Resilience:</span> <span class="text-[var(--navy-bright)] font-bold">Air-Gapped WORM Backups</span></div>
+              </div>
+            </div>
+            <div class="pt-4 border-t border-[var(--border-subtle)] flex flex-wrap gap-1.5">
+              <span class="tag-pill text-[0.62rem]">AWS Security Pro</span>
+              <span class="tag-pill text-[0.62rem]">Azure Expert</span>
+              <span class="tag-pill text-[0.62rem]">ITIL v4</span>
+            </div>
+          </div>
+
+          <!-- Directorate 6: Sovereign Assurance & Operational Security Protocol -->
+          <div class="cyber-card p-7 flex flex-col justify-between border-[var(--border-navy)] bg-gradient-to-br from-[var(--bg-card)] to-[var(--navy-deep)]/15">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <div class="icon-badge text-[var(--cyan-accent)]">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <span class="font-mono-cyber text-[0.65rem] font-bold text-emerald-400 px-2.5 py-1 rounded bg-[var(--terminal-bg)] border border-emerald-500/30">
+                  ● OPSEC STRICT
+                </span>
+              </div>
+              <h4 class="text-lg font-bold text-[var(--text-main)] mb-1">Non-Attributable Defense Protocol</h4>
+              <div class="text-xs font-bold text-[var(--cyan-accent)] uppercase tracking-wider mb-3">Institutional Client Shield</div>
+              <p class="text-xs text-[var(--text-muted)] leading-relaxed mb-5">
+                Eliminating executive social exposure prevents adversary credential harvesting and targeted BEC campaigns against client environments. Our identity is our collective defense benchmark.
+              </p>
+              <div class="space-y-1.5 text-xs text-[var(--text-muted)] font-mono-cyber mb-6">
+                <div class="flex items-center justify-between"><span>Data Custody:</span> <span class="text-emerald-400 font-bold">100% Non-Custodial</span></div>
+                <div class="flex items-center justify-between"><span>Jurisdiction:</span> <span class="text-[var(--text-main)] font-bold">Canadian Sovereign Law</span></div>
+                <div class="flex items-center justify-between"><span>NDA Execution:</span> <span class="text-[var(--cyan-accent)] font-bold">Mutual Institutional</span></div>
+              </div>
+            </div>
+            <div class="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
+              <span class="text-[0.7rem] text-[var(--text-muted)] font-bold">Institutional Rigor Guaranteed</span>
+              <button onclick="openModal('Institutional Governance Briefing')" class="text-xs font-bold text-[var(--cyan-accent)] hover:underline">
+                Request Governance Briefing →
+              </button>
             </div>
           </div>
 
         </div>
+
+        <!-- Collective Operational Benchmark Metric Strip -->
+        <div class="cyber-card p-6 border-[var(--border-navy)] bg-[var(--bg-surface)]">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+              <div class="text-2xl lg:text-3xl font-bold text-[var(--text-main)]">100+ Yrs</div>
+              <div class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mt-1">Cumulative Defense Exp</div>
+            </div>
+            <div>
+              <div class="text-2xl lg:text-3xl font-bold text-emerald-400">100%</div>
+              <div class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mt-1">Sovereign Data Isolation</div>
+            </div>
+            <div>
+              <div class="text-2xl lg:text-3xl font-bold text-[var(--cyan-accent)]">&lt; 15 Min</div>
+              <div class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mt-1">P1 Critical Eviction SLA</div>
+            </div>
+            <div>
+              <div class="text-2xl lg:text-3xl font-bold text-[var(--navy-bright)]">0%</div>
+              <div class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider mt-1">Custodial Attack Surface</div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -1574,63 +1660,12 @@
   </footer>
 
   <!-- ==========================================
-       SCRIPT ENGINE: THREE.JS, AI INTEGRATIONS & SANITIZATION
+       SCRIPT ENGINE: THREE.JS HERO WIREFRAME GLOBE & AI INTEGRATIONS
        ========================================== -->
   <script>
-    // --- 1. Ambient 3D Global Cyber Wave Topology ---
-    var meshCanvas = document.getElementById('global-mesh-canvas');
-    var meshScene = new THREE.Scene();
-    var meshCamera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 1000);
-    meshCamera.position.set(0, 50, 100);
-    meshCamera.lookAt(0, 0, 0);
-
-    var meshRenderer = new THREE.WebGLRenderer({ canvas: meshCanvas, alpha: true, antialias: true });
-    meshRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-    meshRenderer.setSize(window.innerWidth, window.innerHeight);
-
-    var gridWidth = 140;
-    var gridDepth = 140;
-    var gridSegments = 38;
-    var terrainGeo = new THREE.PlaneGeometry(gridWidth, gridDepth, gridSegments, gridSegments);
-    terrainGeo.rotateX(-Math.PI / 2.2);
-
-    var posAttr = terrainGeo.attributes.position;
-    var originalZ = new Float32Array(posAttr.count);
-    for (var i = 0; i < posAttr.count; i++) {
-      originalZ[i] = posAttr.getZ(i);
-    }
-
-    var terrainMat = new THREE.MeshBasicMaterial({
-      color: 0x1e3a8a,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.22
-    });
-    var terrainMesh = new THREE.Mesh(terrainGeo, terrainMat);
-    terrainMesh.position.y = -22;
-    meshScene.add(terrainMesh);
-
-    var constCount = 180;
-    var constGeo = new THREE.BufferGeometry();
-    var constPos = new Float32Array(constCount * 3);
-
-    for (var i = 0; i < constCount * 3; i += 3) {
-      constPos[i] = (Math.random() - 0.5) * 160;
-      constPos[i + 1] = (Math.random() - 0.5) * 60;
-      constPos[i + 2] = (Math.random() - 0.5) * 120;
-    }
-    constGeo.setAttribute('position', new THREE.BufferAttribute(constPos, 3));
-
-    var constMat = new THREE.PointsMaterial({
-      color: 0x38bdf8,
-      size: 0.8,
-      transparent: true,
-      opacity: 0.55
-    });
-    var constPoints = new THREE.Points(constGeo, constMat);
-    meshScene.add(constPoints);
-
-    // --- 2. Hero 3D Gyroscope Defense Core ---
+    /* ==========================================================================
+       1. HERO 3D GYROSCOPE DEFENSE CORE (ROTATING SPHERICAL WIREFRAME GLOBE)
+       ========================================================================== */
     var heroCanvas = document.getElementById('webgl-canvas');
     var heroScene = new THREE.Scene();
     var heroCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
@@ -1640,10 +1675,6 @@
     heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     function resizeAllCanvases() {
-      meshRenderer.setSize(window.innerWidth, window.innerHeight);
-      meshCamera.aspect = window.innerWidth / window.innerHeight;
-      meshCamera.updateProjectionMatrix();
-
       if (heroCanvas && heroCanvas.parentElement) {
         var box = heroCanvas.parentElement.getBoundingClientRect();
         heroRenderer.setSize(box.width, box.height);
@@ -1656,6 +1687,7 @@
     var shieldGroup = new THREE.Group();
     heroScene.add(shieldGroup);
 
+    // Inner wireframe sphere
     var shieldGeo = new THREE.IcosahedronGeometry(1.6, 1);
     var shieldMat = new THREE.MeshBasicMaterial({
       color: 0x2563eb,
@@ -1666,6 +1698,7 @@
     var shieldMesh = new THREE.Mesh(shieldGeo, shieldMat);
     shieldGroup.add(shieldMesh);
 
+    // Outer wireframe sphere
     var outerGeo = new THREE.IcosahedronGeometry(2.1, 2);
     var outerMat = new THREE.MeshBasicMaterial({
       color: 0x1d4ed8,
@@ -1676,6 +1709,7 @@
     var outerWireMesh = new THREE.Mesh(outerGeo, outerMat);
     shieldGroup.add(outerWireMesh);
 
+    // Core orbital points
     var pCount = 220;
     var pGeo = new THREE.BufferGeometry();
     var pPos = new Float32Array(pCount * 3);
@@ -1701,7 +1735,6 @@
 
     var mouseX = 0, mouseY = 0;
     var targetX = 0, targetY = 0;
-    var clock = new THREE.Clock();
 
     window.addEventListener('mousemove', function(e) {
       mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -1710,25 +1743,6 @@
 
     function animate3D() {
       requestAnimationFrame(animate3D);
-      var elapsedTime = clock.getElapsedTime();
-
-      var pos = terrainGeo.attributes.position;
-      for (var i = 0; i < pos.count; i++) {
-        var u = pos.getX(i);
-        var v = pos.getY(i);
-        var wave = Math.sin(u * 0.08 + elapsedTime * 1.2) * Math.cos(v * 0.08 + elapsedTime * 1.0) * 3.5;
-        pos.setZ(i, originalZ[i] + wave);
-      }
-      pos.needsUpdate = true;
-      terrainMesh.rotation.z = Math.sin(elapsedTime * 0.1) * 0.05;
-
-      constPoints.rotation.y = elapsedTime * 0.03;
-      constPoints.rotation.x = Math.sin(elapsedTime * 0.02) * 0.05;
-
-      meshCamera.position.x += (mouseX * 12 - meshCamera.position.x) * 0.03;
-      meshCamera.position.y += (-mouseY * 8 + 50 - meshCamera.position.y) * 0.03;
-      meshCamera.lookAt(0, 0, 0);
-      meshRenderer.render(meshScene, meshCamera);
 
       shieldMesh.rotation.y += 0.003;
       shieldMesh.rotation.x += 0.002;
@@ -1745,7 +1759,7 @@
     }
 
     /* ==========================================================================
-       GEMINI API INTEGRATION & DEFENSIVE SANITIZATION ENGINE
+       2. GEMINI API INTEGRATION & DEFENSIVE SANITIZATION ENGINE
        ========================================================================== */
     let apiKey = localStorage.getItem('raxa_gemini_api_key') || "";
     let latestReportText = "";
@@ -2232,18 +2246,12 @@ Generate a comprehensive, structured gap assessment and compliance readiness roa
         shieldMat.color.setHex(0x2563eb);
         outerMat.color.setHex(0x1d4ed8);
         pMat.color.setHex(0x38bdf8);
-        terrainMat.color.setHex(0x1e3a8a);
-        constMat.color.setHex(0x38bdf8);
-        terrainMat.opacity = 0.22;
       } else {
         if (icon) icon.textContent = '🌙';
         if (label) label.textContent = 'Dark';
         shieldMat.color.setHex(0x1d4ed8);
         outerMat.color.setHex(0x2563eb);
         pMat.color.setHex(0x0284c7);
-        terrainMat.color.setHex(0x93c5fd);
-        constMat.color.setHex(0x0284c7);
-        terrainMat.opacity = 0.35;
       }
     }
 
